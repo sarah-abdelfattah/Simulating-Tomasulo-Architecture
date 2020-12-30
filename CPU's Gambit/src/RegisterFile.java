@@ -11,14 +11,13 @@ public class RegisterFile {
 		}
 
 	}
-	
-	
+
 	static RegEntry[] file;
 
 
 	public RegisterFile(int size) {
 		file = new RegEntry[size];
-		
+
 		for(int i = 0; i<size; i++) {
 			file[i] = new RegEntry("0", 0);
 		}
@@ -33,6 +32,6 @@ public class RegisterFile {
 	public void setFile(int i, RegEntry r) {
 		file[i] = r;
 	}
-	
-	
+
+
 }

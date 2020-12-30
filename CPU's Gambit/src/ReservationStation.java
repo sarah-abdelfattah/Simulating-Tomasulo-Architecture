@@ -1,25 +1,30 @@
 
 public class ReservationStation {
-	String type;//ADD, MUL, LD, SD
-	ResEntry[] entry;
+	String type;//ADD, MUL
+
+	ResEntry[] resEntries;
+
 
 	public ReservationStation(String type, int size) {
 		this.type = type;
-		entry = new ResEntry[size];
+		resEntries = new ResEntry[size];
 	}	
 
 	boolean add(Instruction inst){
 
 		int idx= hasPlace();
-		if(idx==-1)return false;
+		if(idx==-1)
+			return false;
+
 		ResEntry rs = parse(inst);
-		
+		resEntries[idx] = rs;
+
 		return true;
 	}
 
-	private int hasPlace() {
-		for(int i= 0; i< entry.length; i++) {
-			if(entry[i] == null) {
+	int hasPlace() {
+		for(int i= 0; i< resEntries.length; i++) {
+			if(resEntries[i] == null) {
 				//entry[i] = rs;
 				return i;
 			}
@@ -28,24 +33,19 @@ public class ReservationStation {
 	}
 
 	ResEntry parse(Instruction inst) {
+		//ADD F0,F1,F2
 		String op = inst.type;
+
+		int index = Integer.parseInt(inst.src1.charAt(1)+"");
+		int index2 = Integer.parseInt(inst.src2.charAt(1)+"");
+
+		//if RegisterFile of index !null --> V else --> Q
 		double vj=0, vk=0;
 		String qj="", qk="";
+		
 		int A=0;		//TODO: when is it computed? 
-		if(op.equals("SD")||op.equals("LD")) {
-			String[]comp=inst.src1.split("(");//25(R1) -> 25 , R1)
-			int offset=Integer.parseInt(comp[0]);
-			int base=(int)(512*Math.random());//a value for R1 , or randomized one?0->511
-			//0<=base+offset<=1023(size of mem 1024)
-			A=base+offset;
-		}else {
-			
-		}
-		
-		
 
-		return new ResEntry(op, vj, vk, qj, qk, A);
-		
-		
+
+		return new ResEntry(op, vj, vk, qj, qk, A);		
 	}
 }

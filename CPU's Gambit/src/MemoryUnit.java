@@ -5,7 +5,7 @@ public class MemoryUnit {
 	public MemoryUnit(int size) {
 		mem = new double[size];
 	}
-	
+
 	double get(int index) {
 		if(index>= mem.length) {
 			System.out.println("Sorry, index greater than memory size");

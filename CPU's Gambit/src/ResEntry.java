@@ -1,5 +1,4 @@
 public class ResEntry {
-
 	//note: busy was deleted 3lshan f el reservationStation law null --> busy = false
 	String op;
 	double vj, vk;
@@ -15,10 +14,7 @@ public class ResEntry {
 		this.qk = qk;
 		this.A = A;
 
-
-		if(op.equals("LD") || op.equals("SD"))
-			cyclesLeft = 3;
-		else if(op.equals("ADD") || op.equals("SUB"))
+		if(op.equals("ADD") || op.equals("SUB"))
 			cyclesLeft = 4;
 		else if(op.equals("MUL"))
 			cyclesLeft = 5;

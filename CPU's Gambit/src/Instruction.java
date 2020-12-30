@@ -9,4 +9,13 @@ public class Instruction {
 		this.src1 = src1;
 		this.src2 = src2;
 	}
+
+	@Override
+	public String toString() {
+		return "Instruction:" 
+				+ "\ntype= " + type 
+				+ "\ndest= " + dest 
+				+ "\nsrc1=" + src1 
+				+ "\nsrc2=" + src2;
+	}
 }
