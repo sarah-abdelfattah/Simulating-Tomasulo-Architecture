@@ -1,8 +1,8 @@
 
 public class Main {
 	public static void main(String[]args) {
-		Buffer LDBuffer = new Buffer("LD", 5);
-		Buffer SDBuffer = new Buffer("SD", 5);
+		ReservationStation LDResStation = new ReservationStation("LD", 5);
+		ReservationStation SDResStation = new ReservationStation("SD", 5);
 
 		ReservationStation addResStation = new ReservationStation("ADD", 3);
 		ReservationStation mulResStation = new ReservationStation("MUL", 2);

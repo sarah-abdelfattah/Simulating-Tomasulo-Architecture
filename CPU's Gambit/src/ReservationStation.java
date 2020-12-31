@@ -1,6 +1,6 @@
 
 public class ReservationStation {
-	String type;//ADD, MUL
+	String type; //ADD, MUL, LD, SD
 
 	ResEntry[] resEntries;
 
@@ -35,15 +35,34 @@ public class ReservationStation {
 	ResEntry parse(Instruction inst) {
 		//ADD F0,F1,F2
 		String op = inst.type;
+		String dest;
+		double vj = 0, vk = 0;
+		String qj = "0", qk = "0";
 
-		int index = Integer.parseInt(inst.src1.charAt(1)+"");
-		int index2 = Integer.parseInt(inst.src2.charAt(1)+"");
+		if(op.equals("LD") || op.equals("SD")) {
+			dest = inst.dest;
 
-		//if RegisterFile of index !null --> V else --> Q
-		double vj=0, vk=0;
-		String qj="", qk="";
-		
+			String[] data = inst.src1.split("("); //25(R1) -> 25 , R1)
+			vk = Double.parseDouble(data[0]); // 25
+			qk = "0";
+
+			//I need to access the memory to check whether vj or qj
+			vj = (int)(512*Math.random()); //a value for R1 , or randomized one?0->511
+		} else {
+			int index = Integer.parseInt(inst.src1.charAt(1)+"");
+			int index2 = Integer.parseInt(inst.src2.charAt(1)+"");
+
+			//if RegisterFile of index !null --> V else --> Q
+
+			/*A value of 0 indicates that the source operand is 
+			already available in Vj or Vk, or is unnecessary. */
+
+			//			 vj=0, vk=0;
+			//			 qj="0", qk="0";
+		}
+
 		int A=0;		//TODO: when is it computed? 
+
 
 
 		return new ResEntry(op, vj, vk, qj, qk, A);		
