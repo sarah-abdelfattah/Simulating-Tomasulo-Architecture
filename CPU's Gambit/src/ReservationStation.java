@@ -38,21 +38,25 @@ public class ReservationStation {
 		String dest;
 		double vj = 0, vk = 0;
 		String qj = "0", qk = "0";
+		int A=0;		//TODO: when is it computed? 
+
 
 		if(op.equals("LD") || op.equals("SD")) {
 			dest = inst.dest;
 
 			String[] data = inst.src1.split("("); //25(R1) -> 25 , R1)
 			vk = Double.parseDouble(data[0]); // 25
-			qk = "0";
 
-			//I need to access the memory to check whether vj or qj
+			//TODO: need to access the memory to check whether vj or qj
 			vj = (int)(512*Math.random()); //a value for R1 , or randomized one?0->511
+
+			//			A = vk+vj;
+
 		} else {
 			int index = Integer.parseInt(inst.src1.charAt(1)+"");
 			int index2 = Integer.parseInt(inst.src2.charAt(1)+"");
 
-			//if RegisterFile of index !null --> V else --> Q
+			//	if RegisterFile of index !null --> V else --> Q
 
 			/*A value of 0 indicates that the source operand is 
 			already available in Vj or Vk, or is unnecessary. */
@@ -61,10 +65,15 @@ public class ReservationStation {
 			//			 qj="0", qk="0";
 		}
 
-		int A=0;		//TODO: when is it computed? 
-
-
-
 		return new ResEntry(op, vj, vk, qj, qk, A);		
+	}
+	
+	public String toString() {
+		String s = "";
+		
+		for(int i =0; i<resEntries.length ;i++)
+			s += resEntries[i];
+		
+		return s;
 	}
 }

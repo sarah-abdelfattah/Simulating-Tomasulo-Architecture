@@ -33,4 +33,13 @@ public class InstructionUnit {
 
 		return new Instruction(type, dest, src1, src2);
 	}	
+
+	public String toString() {
+		String s = "";
+		
+		for(int i =0; i<numberOfinputs ;i++)
+			s += instArr[i];
+		
+		return s;
+	}
 }

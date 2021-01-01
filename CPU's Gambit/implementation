@@ -1,0 +1,16 @@
+- Instruction Example: 
+LD F0,32(R2)
+ADD F0,F1,F2
+
+
+- Number of reservation stations: 
+1- Adder --> 3
+2- Multiplier --> 2
+3- LD --> 5
+4- SD -->5
+
+- Number of excution stages needed:
+1- LD/SD --> 3
+2- ADD/SUB --> 4
+3- MUL --> 5
+4- DIV --> 7

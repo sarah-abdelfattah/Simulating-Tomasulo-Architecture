@@ -13,9 +13,9 @@ public class Instruction {
 	@Override
 	public String toString() {
 		return "Instruction:" 
-				+ "\ntype= " + type 
-				+ "\ndest= " + dest 
-				+ "\nsrc1=" + src1 
-				+ "\nsrc2=" + src2;
+				+ "\t" + type 
+				+ "\t" + dest 
+				+ "\t" + src1 
+				+ "\t" + src2 + "\n";
 	}
 }

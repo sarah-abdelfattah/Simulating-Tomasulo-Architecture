@@ -1,18 +1,40 @@
+import java.util.Scanner;
 
 public class Main {
-	public static void main(String[]args) {
-		ReservationStation LDResStation = new ReservationStation("LD", 5);
-		ReservationStation SDResStation = new ReservationStation("SD", 5);
+	static ReservationStation LDResStation, SDResStation, addResStation, mulResStation;
+	static InstructionUnit instructionUnit;
+	static MemoryUnit memoryUnit;
+	static RegisterFile registerFile;
 
-		ReservationStation addResStation = new ReservationStation("ADD", 3);
-		ReservationStation mulResStation = new ReservationStation("MUL", 2);
+	static void init(){
+		LDResStation = new ReservationStation("LD", 5);
+		SDResStation = new ReservationStation("SD", 5);
 
-		InstructionUnit instructionUnit = new InstructionUnit(7);
+		addResStation = new ReservationStation("ADD", 4);
+		mulResStation = new ReservationStation("MUL", 3);
+
+		instructionUnit = new InstructionUnit(20);
 		//TODO: fill instruction unit
-		MemoryUnit memoryUnit = new MemoryUnit(1024);
+		memoryUnit = new MemoryUnit(1024);
 		//TODO: fill memory unit
-
-		RegisterFile registerFile = new RegisterFile(10);
+		registerFile = new RegisterFile(10);
 		//TODO: fill register file with RegEntry
+		
+		System.out.println("Please enter # when finished");
+		Scanner sc = new Scanner(System.in);
+		String s = sc.nextLine();
+
+//		Thread.sleep(3000);
+		for(int i = 0 ; i<instructionUnit.instArr.length && !s.equals("#") ; i++) {
+			instructionUnit.add(s);
+			s = sc.nextLine();
+		}
+		
+		System.out.println(instructionUnit);
+	}
+
+
+	public static void main(String[]args) {
+		init();
 	}
 }

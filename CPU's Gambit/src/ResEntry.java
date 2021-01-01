@@ -5,7 +5,7 @@ public class ResEntry {
 	double vj, vk;
 	String qj, qk;
 	int A;
-	int cyclesLeft;
+	int cyclesLeft;	//Qi
 
 	public ResEntry(String op, double vj, double vk, String qj, String qk, int A) {
 		this.op = op;
@@ -24,4 +24,14 @@ public class ResEntry {
 		else 
 			cyclesLeft = 7;		
 	}	
+	
+	public String toString() {
+		return "Res Entry:" 
+				+ "\t" + op 
+				+ "\t" + vj 
+				+ "\t" + vk 
+				+ "\t" + qj 
+				+ "\t" + qk 
+				+ "\t" + A + "\n";
+	}
 }
