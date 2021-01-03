@@ -12,7 +12,7 @@ public class RegisterFile {
 
 	}
 
-	static RegEntry[] file;
+	 RegEntry[] file;
 
 
 	public RegisterFile(int size) {

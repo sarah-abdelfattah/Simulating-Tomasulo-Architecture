@@ -7,9 +7,12 @@ public class MemoryUnit {
 	}
 
 	double get(int index) {
-		if(index>= mem.length) {
-			System.out.println("Sorry, index greater than memory size");
+		if(index>= mem.length||index<-1023) {
+			System.out.println("Sorry, index not valid");
 			return mem[mem.length-1];
+		}
+		if(index<0) {
+			index=index+1024;
 		}
 		return mem[index];
 	}
