@@ -14,11 +14,11 @@ public class ReservationStation {
 		}
 	}	
 
-	boolean add(Instruction inst,RegisterFile rf,ReservationStation ld,ReservationStation sd){//uses register file to read/write tags from/into it
+	int add(Instruction inst,RegisterFile rf,ReservationStation ld,ReservationStation sd){//uses register file to read/write tags from/into it
 
 		int idx= hasPlace();
 		if(idx==-1)
-			return false;
+			return -1;
 		ResEntry rs = parse(inst,rf);
 		//check for loads and stores whether the current entry can be added or not
 		boolean isLoad=inst.type.equals("LD");
@@ -27,11 +27,11 @@ public class ReservationStation {
 			//if cur is load it checks whether there is a store having the same effective address already exists
 			//if cur is store checks whether there is a store/load having the same effective address already exists
 			//those are handled in method conflicting
-			return false;
+			return -1;
 		}
 		resEntries[idx] = rs;
 		
-		return true;
+		return idx;
 	}
 
 	private boolean conflicting(int a, boolean isLoad, ReservationStation ld, ReservationStation sd) {
