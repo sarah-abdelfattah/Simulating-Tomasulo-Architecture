@@ -18,6 +18,10 @@ public class Instruction {
 				+ "\t" + dest 
 				+ "\t" + src1 
 				+ "\t" + src2 
-				+ "\t" + reservationTag + "\n";
+				+ "\t" + reservationTag 
+				+ "\t" + issueCycle 
+				+ "\t" + executionCycle 
+				+ "\t" + finishCycle 
+				+ "\n";
 	}
 }

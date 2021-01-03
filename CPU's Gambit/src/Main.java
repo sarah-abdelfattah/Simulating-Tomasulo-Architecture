@@ -37,7 +37,7 @@ public class Main {
 		//fill data
 		fillDummy();
 
-//		System.out.println(instructionUnit);
+		//		System.out.println(instructionUnit);
 	}
 
 
@@ -52,7 +52,6 @@ public class Main {
 			double value =  Math.random()*234;
 			memoryUnit.mem[i] = value;
 		}
-
 	}
 
 
@@ -88,7 +87,8 @@ public class Main {
 				Instruction cur=instructionUnit.instArr[i];
 				int executionCycle=cur.executionCycle;
 				int finishCycle=cur.finishCycle;
-				if(cur.issueCycle>0 && cur.issueCycle<=curCycle-1&&executionCycle==0) {//for issued instructions that did not begin execution yet
+				//TODO: needs to check eno el WB of what is needed is writted in a cycle previous
+				if(cur.issueCycle>0 && cur.issueCycle<=curCycle-1&&executionCycle==0 ) {//for issued instructions that did not begin execution yet
 					if(canExecute(cur)) {
 						cur.executionCycle=curCycle;
 						//set initial execution cycle in the corresponding res entry (for gui purpose only)
@@ -105,7 +105,7 @@ public class Main {
 					cur.finishCycle=curCycle;
 					//simulation only,as we do it here in 1 step
 					//QUESTION: what shall the below line return if it's a store, maybe value to be stored only for generality?
-//					System.out.println("cur: " + cur);
+					//					System.out.println("cur: " + cur);
 					double value = execute(cur);
 					//publish the result with the tag of current instruction
 					//it should be used by any other res station that needs it and also updated in reg file
@@ -115,8 +115,8 @@ public class Main {
 					cdbIsBusy=true;
 				}
 			}
-
-						System.out.println(registerFile);
+			System.out.println(instructionUnit);
+			//						System.out.println(registerFile);
 			//			System.out.println(instructionUnit);
 
 
