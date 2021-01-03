@@ -16,4 +16,11 @@ public class MemoryUnit {
 		}
 		return mem[index];
 	}
+
+	void set(int index, double value) {
+		if(index == -1)
+			System.out.println("Sorry, index not valid");
+		else 
+			mem[index] = value;
+	}
 }

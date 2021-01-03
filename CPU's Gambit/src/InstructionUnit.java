@@ -36,10 +36,10 @@ public class InstructionUnit {
 
 	public String toString() {
 		String s = "";
-		
+
 		for(int i =0; i<numberOfinputs ;i++)
 			s += instArr[i];
-		
+
 		return s;
 	}
 }

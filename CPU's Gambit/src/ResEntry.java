@@ -3,7 +3,7 @@ public class ResEntry {
 	//vk should be the offset 
 	String op;
 	double vj, vk;
-	String qj, qk;
+	String qj, qk; // "0" when resolved
 	int A;
 	String address;//rep of address as a string -> 32+R2
 	//int cyclesLeft;	//Qi
@@ -17,16 +17,16 @@ public class ResEntry {
 		this.qk = qk;
 		this.A = A;
 
-//		if(op.equals("LD") || op.equals("SD"))
-//			cyclesLeft = 2;
-//		else if(op.equals("ADD") || op.equals("SUB"))
-//			cyclesLeft = 3;
-//		else if(op.equals("MUL"))
-//			cyclesLeft = 5;
-//		else 
-//			cyclesLeft = 7;		
+		//		if(op.equals("LD") || op.equals("SD"))
+		//			cyclesLeft = 2;
+		//		else if(op.equals("ADD") || op.equals("SUB"))
+		//			cyclesLeft = 3;
+		//		else if(op.equals("MUL"))
+		//			cyclesLeft = 5;
+		//		else 
+		//			cyclesLeft = 7;		
 	}	
-	
+
 	public String toString() {
 		return "Res Entry:" 
 				+ "\t" + op 
@@ -36,4 +36,15 @@ public class ResEntry {
 				+ "\t" + qk 
 				+ "\t" + A + "\n";
 	}
+
+	//	void setV(String att, double value) {
+	//		if(att.equals("j"))
+	//			this.vj = value;
+	//		else
+	//			this.vk = value;
+	//	}
+
+
+
+
 }

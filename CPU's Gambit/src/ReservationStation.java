@@ -4,7 +4,7 @@ public class ReservationStation {
 
 	ResEntry[] resEntries;
 
-    int []integerRegisters;//Array for R0,R1,R2,...,R31 . Having values --> 0,16,32,48,...,496
+	int []integerRegisters;//Array for R0,R1,R2,...,R31 . Having values --> 0,16,32,48,...,496
 	public ReservationStation(String type, int size) {
 		this.type = type;
 		resEntries = new ResEntry[size];
@@ -21,15 +21,26 @@ public class ReservationStation {
 			return -1;
 		ResEntry rs = parse(inst,rf);
 		//check for loads and stores whether the current entry can be added or not
-		boolean isLoad=inst.type.equals("LD");
-		boolean isStore=inst.type.equals("SD");
-		if((isLoad||isStore)&&conflicting(rs.A,isLoad,ld,sd)) {
+		boolean isLoad = inst.type.equals("LD");
+		boolean isStore = inst.type.equals("SD");
+		if((isLoad||isStore) && conflicting(rs.A,isLoad,ld,sd)) {
 			//if cur is load it checks whether there is a store having the same effective address already exists
 			//if cur is store checks whether there is a store/load having the same effective address already exists
 			//those are handled in method conflicting
 			return -1;
 		}
 		resEntries[idx] = rs;
+
+		char prefix=inst.type.equals("SUB")?'A':inst.type.equals("DIV")?'M':inst.type.charAt(0);
+		inst.reservationTag=prefix+""+(idx+1);
+		
+		if(!inst.type.equals("SD")) {
+			int idx2 = Integer.parseInt(inst.dest.substring(1));
+			System.out.println("inst: " + inst);
+			System.out.println("idx: " + idx);
+
+			rf.file[idx2].qi = inst.reservationTag;//writing in reg file
+		}
 		
 		return idx;
 	}
@@ -71,12 +82,11 @@ public class ReservationStation {
 
 
 		if(op.equals("LD") || op.equals("SD")) {
-
-			String[] data = inst.src1.split("("); //25(R1) -> 25 , R1)
+			String[] data = inst.src1.split("\\("); //25(R1) -> 25 , R1)
 			int offset = Integer.parseInt(data[0]); // 25 , offsets are integers
 
 			int baseIdx = Integer.parseInt(data[1].substring(1,data[1].length()-1)); //a value for R1 , or randomized one?0->511
-			int base=integerRegisters[baseIdx];
+			int base = integerRegisters[baseIdx];
 			A = base+offset;
 			if(op.equals("SD")) {
 				//it has vj and qj(may be waiting for a value to be computed)
@@ -104,30 +114,33 @@ public class ReservationStation {
 			}else {
 				qk=rf.file[index2].qi;
 			}
-			
+
 			//	if RegisterFile of index !null --> V else --> Q
 
 			/*A value of 0 indicates that the source operand is 
 			already available in Vj or Vk, or is unnecessary. */
-			
+
 			//  ===> an empty string would suffice , but will leave it as it is 
-			
+
 			//			 vj=0, vk=0;
 			//			 qj="0", qk="0";
 		}
-		if(!op.equals("SD")) {
-			int idx=Integer.parseInt(dest.substring(1));
-			rf.file[idx].qi=inst.reservationTag;//writing in reg file
-		}
+//		if(!op.equals("SD")) {
+//			int idx = Integer.parseInt(dest.substring(1));
+//			System.out.println("inst: " + inst);
+//			System.out.println("idx: " + idx);
+//
+//			rf.file[idx].qi = inst.reservationTag;//writing in reg file
+//		}
 		return new ResEntry(op, vj, vk, qj, qk, A);		
 	}
-	
+
 	public String toString() {
 		String s = "";
-		
+
 		for(int i =0; i<resEntries.length ;i++)
 			s += resEntries[i];
-		
+
 		return s;
 	}
 }

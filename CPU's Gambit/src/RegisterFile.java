@@ -10,9 +10,16 @@ public class RegisterFile {
 			this.content = content;
 		}
 
+		@Override
+		public String toString() {
+			return "RegEntry:" 
+					+ "\t" + qi 
+					+ "\t" + content 
+					+ "\n";
+		}
 	}
 
-	 RegEntry[] file;
+	RegEntry[] file;
 
 
 	public RegisterFile(int size) {
@@ -33,5 +40,15 @@ public class RegisterFile {
 		file[i] = r;
 	}
 
+
+	@Override
+	public String toString() {
+		
+		String s ="";
+		for(int i=0; i<file.length;i++) {
+			s += file[i] + "\t F" + i + "\n" ; 
+		}
+		return s;
+	}
 
 }
