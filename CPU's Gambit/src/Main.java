@@ -54,10 +54,13 @@ public class Main {
 		for(int curCycle=1;;curCycle++) {
 			Instruction current=lastIssued<numOfInstructions-1?instructionUnit.instArr[lastIssued+1]:null;
 			//current is null if we already issued all instructions
-			if(current!=null&&canBeIssued(current)) {//if can be issued is true , it will be added automatically
+			int idx=canBeIssued(current);
+			if(current!=null&&idx!=-1) {//if can be issued is true , it will be added automatically
 				//if alu, does it have a place to reside in?
 				//if load,does it have a place to reside in? is it preceeded by a store of same effective address?
 				//if store,does it have a place to reside in? is it preceeded by a load/store of same effective address?
+				char prefix=current.type.equals("SUB")?'A':current.type.equals("DIV")?'M':current.type.charAt(0);
+				current.reservationTag=prefix+""+(idx+1);
 				current.issueCycle=curCycle;
 				lastIssued++;
 				//issue it , put it in corresponding reservation station
@@ -201,7 +204,7 @@ public class Main {
 	}
 
 
-	private static boolean canBeIssued(Instruction current) {
+	private static int canBeIssued(Instruction current) {
 		String op=current.type;
 		if(op.equals("LD") )
 			return LDResStation.add(current,registerFile,LDResStation,SDResStation);
