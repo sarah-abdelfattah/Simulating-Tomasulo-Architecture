@@ -18,9 +18,15 @@ public class MemoryUnit {
 	}
 
 	void set(int index, double value) {
-		if(index == -1)
+		if(index>= mem.length||index<-1023) {
 			System.out.println("Sorry, index not valid");
-		else 
-			mem[index] = value;
+			return;
+		}
+		
+		if(index<0) {
+			index=index+1024;
+		}
+		
+		mem[index] = value;
 	}
 }

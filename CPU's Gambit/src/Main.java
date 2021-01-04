@@ -12,18 +12,18 @@ public class Main {
 	static MemoryUnit memoryUnit;
 	static RegisterFile registerFile;
 	static void init(){
-		LDResStation = new ReservationStation("LD", 5);
+		LDResStation = new ReservationStation("LD", 3);
 		SDResStation = new ReservationStation("SD", 5);
 
-		addResStation = new ReservationStation("ADD", 4);
-		mulResStation = new ReservationStation("MUL", 3);
+		addResStation = new ReservationStation("ADD", 3);
+		mulResStation = new ReservationStation("MUL", 2);
 
 		instructionUnit = new InstructionUnit(32);
-		//TODO: fill instruction unit
+		// fill instruction unit .. done --> at run TODO: text file
 		memoryUnit = new MemoryUnit(1024);
-		//TODO: fill memory unit
+		// fill memory unit .. done --> filldummy()
 		registerFile = new RegisterFile(32);//32 fp regs
-		//TODO: fill register file with RegEntry
+		// fill register file with RegEntry  .. done --> filldummy()
 
 		System.out.println("Please enter # when finished");
 		Scanner sc = new Scanner(System.in);
@@ -39,7 +39,6 @@ public class Main {
 
 		//		System.out.println(instructionUnit);
 	}
-
 
 	private static void fillDummy() {
 		for(int i =0 ;i<registerFile.file.length;i++) {
@@ -59,12 +58,12 @@ public class Main {
 		init();
 		int lastIssued=-1;//index of the last issued instruction(in instruction unit)
 		int numOfInstructions=instructionUnit.numberOfinputs;
-		for(int curCycle=1;;curCycle++) {
+		for(int curCycle=1;curCycle<60;curCycle++) {
 			System.out.println("cycle: " + curCycle);
 			Instruction current=lastIssued<numOfInstructions-1?instructionUnit.instArr[lastIssued+1]:null;
 			//current is null if we already issued all instructions
 
-			if(current!=null) {
+			if(current!=null ) {
 				int idx=canBeIssued(current);
 				//if can be issued is true , it will be added automatically
 				//if alu, does it have a place to reside in?
@@ -83,13 +82,13 @@ public class Main {
 
 			//add an instruction to it's corresponding reservation
 			boolean cdbIsBusy=false;
-			for(int i=0;i<lastIssued;i++) {
+			for(int i=0;i<=lastIssued;i++) { //TODO: to be checked .. less than or less than or equal
 				Instruction cur=instructionUnit.instArr[i];
 				int executionCycle=cur.executionCycle;
 				int finishCycle=cur.finishCycle;
 				//TODO: needs to check eno el WB of what is needed is writted in a cycle previous
 				if(cur.issueCycle>0 && cur.issueCycle<=curCycle-1&&executionCycle==0 ) {//for issued instructions that did not begin execution yet
-					if(canExecute(cur)) {
+					if(canExecute(cur, curCycle)) {
 						cur.executionCycle=curCycle;
 						//set initial execution cycle in the corresponding res entry (for gui purpose only)
 						setInitialExecutionCycle(cur,curCycle);
@@ -101,7 +100,10 @@ public class Main {
 
 				//ex>0 to ensure it's already executing , finish==0 to ensure it's still executing and did not finish yet,3rd condition to check if it's eligible for
 				//writing result(done executing in the reservation) , last condition to check if it can publish the result or not(cdb is not busy)
-				if(executionCycle>0&&finishCycle==0&&curCycle-executionCycle>=getPromisedCycles(cur)&&!cdbIsBusy) {
+				if(executionCycle>0
+						&&finishCycle==0
+						&&curCycle-executionCycle>=getPromisedCycles(cur)
+						&&!cdbIsBusy) {
 					cur.finishCycle=curCycle;
 					//simulation only,as we do it here in 1 step
 					//QUESTION: what shall the below line return if it's a store, maybe value to be stored only for generality?
@@ -109,25 +111,24 @@ public class Main {
 					double value = execute(cur);
 					//publish the result with the tag of current instruction
 					//it should be used by any other res station that needs it and also updated in reg file
-					publishResult(value,cur.reservationTag);
+					publishResult(value,cur.reservationTag, curCycle);
 					//remove the instruction from the reservation station(removed with tag)
 					deleteInstruction(cur);
 					cdbIsBusy=true;
 				}
 			}
-			System.out.println(instructionUnit);
+			//			System.out.println(instructionUnit);
 			//						System.out.println(registerFile);
 			//			System.out.println(instructionUnit);
 
+			//			System.out.println(mulResStation);
 
 			if(done()) {
-				System.out.println("All is done" + curCycle);
+				System.out.println("All is done: " + curCycle);
 				break;
 			}
 		}
-
-
-
+		System.out.println(instructionUnit);
 	}
 
 	private static void setInitialExecutionCycle(Instruction cur,int cycle) {
@@ -137,12 +138,11 @@ public class Main {
 		}else if(cur.type.equals("SD")) {
 			SDResStation.resEntries[idx].initialExecutionCycle=cycle;
 		}else if(cur.type.equals("MUL")||cur.type.equals("DIV")) {
-			addResStation.resEntries[idx].initialExecutionCycle=cycle;
-		}else {//ADD OR SUB
 			mulResStation.resEntries[idx].initialExecutionCycle=cycle;
+		}else {//ADD OR SUB
+			addResStation.resEntries[idx].initialExecutionCycle=cycle;
 		}
 	}
-
 
 	private static void deleteInstruction(Instruction cur) {
 		int idx=Integer.parseInt(cur.reservationTag.substring(1))-1;//extracts index of it
@@ -151,14 +151,14 @@ public class Main {
 		}else if(cur.type.equals("SD")) {
 			SDResStation.resEntries[idx]=null;
 		}else if(cur.type.equals("MUL") ||cur.type.equals("DIV")) {
-			addResStation.resEntries[idx]=null;
-		}else {//ADD OR SUB
 			mulResStation.resEntries[idx]=null;
+		}else {//ADD OR SUB
+			addResStation.resEntries[idx]=null;
 		}
 		//is there any other appropriate logic to be done?
 	}
 
-	private static void publishResult(double value, String reservationTag) {
+	private static void publishResult(double value, String reservationTag, int currentCycle) {
 		//functionality: inst finish f b-publish 
 
 		/*
@@ -170,19 +170,18 @@ public class Main {
 
 		if(reservationTag.charAt(0) == 'S') {
 			int index = -1;
-			int tagIndex = reservationTag.charAt(1);
+			int tagIndex = Integer.parseInt(reservationTag.substring(1)); //S1
 			for(int i = 0; i<SDResStation.resEntries.length ; i++) {
 				if(tagIndex==i+1 && SDResStation.resEntries[i]!=null)
-					index = i;
+					index = SDResStation.resEntries[i].A;
 			}
 			memoryUnit.set(index, value);
-		}else {
+		} else {
 			//loop through RegFile
 			for(int i = 0; i < registerFile.file.length ; i++ ) {
 				if(registerFile.file[i].qi.equals(reservationTag)) {
 					registerFile.file[i].content = value;
 					registerFile.file[i].qi = "0";
-
 				}
 			}
 
@@ -191,10 +190,12 @@ public class Main {
 				if(addResStation.resEntries[i] != null && addResStation.resEntries[i].qj.equals(reservationTag)) {
 					addResStation.resEntries[i].vj = value;
 					addResStation.resEntries[i].qj = "0";
+					addResStation.resEntries[i].jReady = currentCycle;	
 				}
 				if(addResStation.resEntries[i] != null && addResStation.resEntries[i].qk.equals(reservationTag)) {
 					addResStation.resEntries[i].vk = value;
 					addResStation.resEntries[i].qk = "0";
+					addResStation.resEntries[i].kReady = currentCycle;
 				}
 			}
 
@@ -203,14 +204,15 @@ public class Main {
 				if(mulResStation.resEntries[i] != null &&  mulResStation.resEntries[i].qj.equals(reservationTag)) {
 					mulResStation.resEntries[i].vj = value;
 					mulResStation.resEntries[i].qj = "0";
+					mulResStation.resEntries[i].jReady = currentCycle;
 				}
 				if(mulResStation.resEntries[i] != null && mulResStation.resEntries[i].qk.equals(reservationTag)) {
 					mulResStation.resEntries[i].vk = value;
 					mulResStation.resEntries[i].qk = "0";
+					mulResStation.resEntries[i].kReady = currentCycle;
 				}
 			}
 		}
-
 	}
 
 	private static double execute(Instruction cur) {
@@ -223,7 +225,7 @@ public class Main {
 			entry=LDResStation.resEntries[tagIndex];
 			ans=memoryUnit.get(entry.A);
 		}else if(cur.type.equals("SD")) {
-			entry=LDResStation.resEntries[tagIndex];
+			entry=SDResStation.resEntries[tagIndex];
 			ans=entry.vj;
 		}else if(cur.type.equals("DIV")) {
 			entry=mulResStation.resEntries[tagIndex];
@@ -256,7 +258,7 @@ public class Main {
 	}
 
 
-	private static boolean canExecute(Instruction cur) {
+	private static boolean canExecute(Instruction cur, int currentCycle) {
 		int idx=Integer.parseInt(cur.reservationTag.substring(1))-1;//extracts index of it
 		//load is not needed to be checked as it's not waiting for something
 		ResEntry res=null;
@@ -264,14 +266,21 @@ public class Main {
 			return true;
 		}
 		if(cur.type.equals("SD")) {
-			res=SDResStation.resEntries[idx];
-		}else if(cur.type.equals("MUL")||cur.type.equals("DIV")) {
-			res=addResStation.resEntries[idx];
-
-		}else{//ADD OR SUB
+			res=SDResStation.resEntries[idx] ;
+		} else if(cur.type.equals("MUL")||cur.type.equals("DIV")) {
 			res=mulResStation.resEntries[idx];
+
+		} else{//ADD OR SUB
+			res=addResStation.resEntries[idx];
 		}
-		return res.qj.equals("0")&&res.qk.equals("0");//operands are ready
+		//		System.out.println("res: " + res);
+		return res.qj.equals("0") 
+				&& res.qk.equals("0") 
+				&& res.jReady != -1
+				&& res.kReady != -1
+				&& currentCycle > res.jReady 
+				&& currentCycle > res.kReady;
+				//operands are ready
 	}
 
 
@@ -285,12 +294,11 @@ public class Main {
 			return addResStation.add(current,registerFile,LDResStation,SDResStation);
 		else //MUL AND DIV
 			return mulResStation.add(current,registerFile,LDResStation,SDResStation);
-
 	}
 
 
 	private static boolean done() {
-		for(int i=0;i<instructionUnit.instArr.length;i++) {
+		for(int i=0;i<instructionUnit.numberOfinputs;i++) {
 			Instruction cur=instructionUnit.instArr[i];
 			if(cur.finishCycle==0)//means that a single instruction didn't finish execution
 				return false;

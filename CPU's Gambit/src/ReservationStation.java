@@ -36,8 +36,8 @@ public class ReservationStation {
 		
 		if(!inst.type.equals("SD")) {
 			int idx2 = Integer.parseInt(inst.dest.substring(1));
-			System.out.println("inst: " + inst);
-			System.out.println("idx: " + idx);
+//			System.out.println("inst: " + inst);
+//			System.out.println("idx: " + idx);
 
 			rf.file[idx2].qi = inst.reservationTag;//writing in reg file
 		}
@@ -79,6 +79,7 @@ public class ReservationStation {
 		double vj = 0, vk = 0;
 		String qj = "0", qk = "0";
 		int A=0;		//when is it computed? upon issuing directly(right here)
+		int jReady=-1, kReady =-1;
 
 
 		if(op.equals("LD") || op.equals("SD")) {
@@ -88,29 +89,35 @@ public class ReservationStation {
 			int baseIdx = Integer.parseInt(data[1].substring(1,data[1].length()-1)); //a value for R1 , or randomized one?0->511
 			int base = integerRegisters[baseIdx];
 			A = base+offset;
+			
 			if(op.equals("SD")) {
 				//it has vj and qj(may be waiting for a value to be computed)
 				//TODO check whether "dest" is available or yet to be computed by another instruction
 				int idx=Integer.parseInt(dest.substring(1));
 				if(rf.file[idx].qi.equals("0")) {
 					vj=rf.file[idx].content;
+					jReady=0;
 				}else {
 					qj=rf.file[idx].qi;
 				}
 			}
-
 		} else {
-			int index = Integer.parseInt(inst.src1.charAt(1)+"");
-			int index2 = Integer.parseInt(inst.src2.charAt(1)+"");
+			int index = Integer.parseInt(inst.src1.substring(1)+"");
+			int index2 = Integer.parseInt(inst.src2.substring(1)+"");
+			System.out.println("index: " + index + " index2: " + index2);
+
 			//check for src1 operand if it has a value or a reference
 			if(rf.file[index].qi.equals("0")) {
+				
 				vj=rf.file[index].content;
+				jReady=0;
 			}else {
 				qj=rf.file[index].qi;
 			}
 			//check for src2 operand if it has a value or a reference
 			if(rf.file[index2].qi.equals("0")) {
 				vk=rf.file[index2].content;
+				kReady=0;
 			}else {
 				qk=rf.file[index2].qi;
 			}
@@ -132,14 +139,19 @@ public class ReservationStation {
 //
 //			rf.file[idx].qi = inst.reservationTag;//writing in reg file
 //		}
-		return new ResEntry(op, vj, vk, qj, qk, A);		
+		return new ResEntry(op, vj, vk, qj, qk, A, jReady, kReady);		
 	}
 
 	public String toString() {
 		String s = "";
 
-		for(int i =0; i<resEntries.length ;i++)
-			s += resEntries[i];
+		for(int i =0; i<resEntries.length ;i++) {
+			
+			char prefix=type.equals("SUB")?'A':type.equals("DIV")?'M':type.charAt(0);
+			String tag = prefix+""+(i+1);
+
+			s += tag +" " + resEntries[i] + "\n";
+		}
 
 		return s;
 	}

@@ -8,14 +8,18 @@ public class ResEntry {
 	String address;//rep of address as a string -> 32+R2
 	//int cyclesLeft;	//Qi
 	int initialExecutionCycle;
+	int jReady;
+	int kReady;
 
-	public ResEntry(String op, double vj, double vk, String qj, String qk, int A) {
+	public ResEntry(String op, double vj, double vk, String qj, String qk, int A, int jReady, int kReady) {
 		this.op = op;
 		this.vj = vj;
 		this.vk = vk;
 		this.qj = qj;
 		this.qk = qk;
 		this.A = A;
+		this.jReady = jReady;
+		this.kReady = kReady;
 
 		//		if(op.equals("LD") || op.equals("SD"))
 		//			cyclesLeft = 2;
@@ -32,9 +36,12 @@ public class ResEntry {
 				+ "\t" + op 
 				+ "\t" + vj 
 				+ "\t" + vk 
-				+ "\t" + qj 
-				+ "\t" + qk 
-				+ "\t" + A + "\n";
+				+ "\tqj: " + qj 
+				+ "\tqk: " + qk 
+				+ "\tA: " + A 
+				+ "\tjReady: " + jReady
+				+ "\tkReady: " + kReady
+				+ "\n";
 	}
 
 	//	void setV(String att, double value) {
