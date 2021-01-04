@@ -1,6 +1,13 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Scanner;
 //offset in LD AND SD should be from -1024->527 (negative base+offset accesses memory from the bottom )->reverse access 
 //Mapping of negative memory addresses -1 -> last pos (1023) , -2 ->1022 .. (0 indexed)
+
+import View.GUI;
 
 //register file and memory are initially filled with zeroes , method fillDummy in line 33, fills reg file and memory with dummy data to test properly
 //we assume for any block of code entered that all the operands are ready / no hazards stopping us ,(no depending on a previous snippet of code not mentioned)
@@ -11,9 +18,9 @@ public class Main {
 	static InstructionUnit instructionUnit;
 	static MemoryUnit memoryUnit;
 	static RegisterFile registerFile;
-	static void init(){
+	static void init() throws IOException{
 		LDResStation = new ReservationStation("LD", 3);
-		SDResStation = new ReservationStation("SD", 5);
+		SDResStation = new ReservationStation("SD", 2);
 
 		addResStation = new ReservationStation("ADD", 3);
 		mulResStation = new ReservationStation("MUL", 2);
@@ -25,17 +32,27 @@ public class Main {
 		registerFile = new RegisterFile(32);//32 fp regs
 		// fill register file with RegEntry  .. done --> filldummy()
 
-		System.out.println("Please enter # when finished");
-		Scanner sc = new Scanner(System.in);
-		String s = sc.nextLine();
+//		System.out.println("Please enter # when finished");
+//		Scanner sc = new Scanner(System.in);
+//		String s = sc.nextLine();
+//	    sc.useDelimiter("#"); 
 
+		
+		 File file = new File("Tests/test1.txt"); 
+		  
+		  BufferedReader br = new BufferedReader(new FileReader(file)); 
+		  String st; 
+		  while ((st = br.readLine()) != null)
+			  instructionUnit.add(st);
+		  
 		//		Thread.sleep(3000);
-		for(int i = 0 ; i<instructionUnit.instArr.length && !s.equals("#") ; i++) {
-			instructionUnit.add(s);
-			s = sc.nextLine();
-		}
-		//fill data
+//		for(int i = 0 ; i<instructionUnit.instArr.length && !s.equals("#") ; i++) {
+////			instructionUnit.add(s);
+//			s = sc.nextLine();
+//		}
+//		//fill data
 		fillDummy();
+		new GUI();
 
 		//		System.out.println(instructionUnit);
 	}
@@ -54,7 +71,7 @@ public class Main {
 	}
 
 
-	public static void main(String[]args) {
+	public static void main(String[]args) throws IOException {
 		init();
 		int lastIssued=-1;//index of the last issued instruction(in instruction unit)
 		int numOfInstructions=instructionUnit.numberOfinputs;
