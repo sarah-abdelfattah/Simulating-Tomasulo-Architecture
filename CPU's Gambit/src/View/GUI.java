@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,16 +23,19 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-
+import Implementation.*;
 
 //TODO: isDone --> deactivate (start-next-done)
 //TODO: all filling functions
 //TODO: next ActionListener
 public class GUI extends JFrame implements WindowListener, ActionListener{
 	JPanel allSections,rightSection,upperSection, lowerSection, centerSection;
+	RegFilePanel rfp;
 	JButton nextBtn;
 	int clickedNext =0;
-	String CC = "Clock Cycle number: " + clickedNext;
+	boolean done=false;
+	String CC;
+	//static Main main;
 //	JTextField clockCycles;
 	
 	//colors
@@ -43,7 +47,10 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 
 
 
-	public GUI() {
+	public GUI() throws IOException {
+		//main=new Main();
+		Main.init();
+		rfp=new RegFilePanel();
 		this.setVisible(true);
 		this.setSize(1200, 1200);
 		this.setTitle("CPU's Gambit");
@@ -65,7 +72,9 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		upperSection.setVisible(true);
 		upperSection.setBackground(lightGray);
 		upperSection.setPreferredSize(new Dimension((int) this.getSize().getWidth(), 30));
-
+		
+		CC = "Clock Cycle number: " + clickedNext;
+		
 		JLabel clockCycles = new JLabel();
 		clockCycles.setText(CC);
 		clockCycles.setFont(new Font(Font.SANS_SERIF, Font.BOLD,18));
@@ -84,8 +93,9 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		centerSection.setPreferredSize(new Dimension(300,(int) this.getSize().getHeight()));
 		centerSection.setLayout(new GridLayout(2,1)); //2 items so far (RegFile, IEW table)
 		
-		centerSection.add(new RegFilePanel());
 		centerSection.add(new IEWPanel());
+		centerSection.add(rfp);
+		
 
 
 		allSections.add(centerSection, BorderLayout.CENTER);
@@ -113,13 +123,41 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		nextBtn.setBackground(darkRed);
 		nextBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
 		nextBtn.setSize(100,15);
+		nextBtn.addActionListener(new ActionListener() {
 		
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+					try {
+						int x=Main.nextCycle();
+						if(x==-1) {
+							done=true;
+						}
+						if(!done) {
+							
+							clickedNext++;
+							clockCycles.setText("Clock Cycle number: " + clickedNext);
+							centerSection.remove(1);
+							centerSection.add(new RegFilePanel());
+							repaint();
+							//pack();
+							
+						}
+						//System.out.println("x:"+x);
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				
+			}
+		});
 		
 		lowerSection.add(nextBtn);
 
 		allSections.add(lowerSection, BorderLayout.PAGE_END);
 		
-		
+		//System.out.println(clickedNext);
 		
 		this.validate();
 		this.repaint();
@@ -142,7 +180,7 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		new GUI();
 	}
 

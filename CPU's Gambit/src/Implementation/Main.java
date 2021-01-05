@@ -1,3 +1,5 @@
+package Implementation;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,11 +19,11 @@ public class Main {
 	static ReservationStation LDResStation, SDResStation, addResStation, mulResStation;
 	static InstructionUnit instructionUnit;
 	static MemoryUnit memoryUnit;
-	static RegisterFile registerFile;
+	public static RegisterFile registerFile;
 	static int loadCycles,storeCycles,addCycles,subCycles,mulCycles,divCycles;
 	static int lastIssued=-1;
 	static int curCycle=1;
-	static void init() throws IOException{
+	public static void init() throws IOException{
 		instructionUnit = new InstructionUnit(32);
 		// fill instruction unit .. done --> at run TODO: text file
 		memoryUnit = new MemoryUnit(1024);
