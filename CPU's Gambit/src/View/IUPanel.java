@@ -24,7 +24,7 @@ public class IUPanel extends JPanel{
 	public IUPanel() {
 		this.setVisible(true);
 		this.setBackground(lightGray);
-		this.setPreferredSize(new Dimension(300,(int) this.getSize().getHeight()));
+		this.setPreferredSize(new Dimension(300,(int) this.getSize().getHeight()-50));
 
 		TitledBorder borderInfoIU = new TitledBorder("Instruction Unit");
 		borderInfoIU.setTitleJustification(TitledBorder.CENTER);
@@ -66,7 +66,7 @@ public class IUPanel extends JPanel{
 		tableIU.setPreferredSize(new Dimension(260,800));
 		tableIU.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableIU.setRowHeight(25);
-
+		tableIU.setEnabled(false);
 		tableIU.getColumnModel().getColumn(0).setPreferredWidth(0);
 
 		//to center text

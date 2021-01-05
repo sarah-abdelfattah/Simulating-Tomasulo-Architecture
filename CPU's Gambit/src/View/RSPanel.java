@@ -23,15 +23,15 @@ public class RSPanel extends JPanel {
 	public RSPanel() {
 		this.setVisible(true);
 		this.setBackground(lightGray);
-		this.setPreferredSize(new Dimension(300,(int) this.getSize().getHeight()));
-		this.setLayout(new GridLayout(5,1,0,0));
+		this.setPreferredSize(new Dimension(300,(int) this.getSize().getHeight()-50));
+		this.setLayout(new GridLayout(5,1));
 
-		TitledBorder borderInfoRS = new TitledBorder("Reservation Stations");
-		borderInfoRS.setTitleJustification(TitledBorder.CENTER);
-		borderInfoRS.setTitlePosition(TitledBorder.TOP);
-		borderInfoRS.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,18));
-		borderInfoRS.setTitleColor(ivory);
-		this.setBorder(borderInfoRS);
+//		TitledBorder borderInfoRS = new TitledBorder("Reservation Stations");
+//		borderInfoRS.setTitleJustification(TitledBorder.CENTER);
+//		borderInfoRS.setTitlePosition(TitledBorder.TOP);
+//		borderInfoRS.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,18));
+//		borderInfoRS.setTitleColor(ivory);
+//		this.setBorder(borderInfoRS);
 
 
 
@@ -49,15 +49,16 @@ public class RSPanel extends JPanel {
 			{"1","1","23"},
 			{"2","0","49"},
 			{"3","0","111"},
+			{"","",""},
 		};
 
 		JTable tableLD = new JTable(dataLD, columnsLD);
 		tableLD.setGridColor(Color.white);
 		tableLD.setBackground(lightGray);
-//		tableLD.setPreferredSize(new Dimension(230,250));
+//		tableLD.setPreferredSize(new Dimension(250,80));
 		tableLD.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableLD.setRowHeight(25);
-
+		tableLD.setEnabled(false);
 		tableLD.getColumnModel().getColumn(0).setPreferredWidth(0);
 
 		for(int x = 0 ; x < 3 ; x++)
@@ -74,14 +75,14 @@ public class RSPanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollLD = new JScrollPane(tableLD);
-		scrollLD.setPreferredSize(new Dimension(290,330));
+		scrollLD.setPreferredSize(new Dimension(250,130));
 		
-//		TitledBorder borderInfoLD = new TitledBorder("LD Reservation Station");
-//		borderInfoLD.setTitleJustification(TitledBorder.CENTER);
-//		borderInfoLD.setTitlePosition(TitledBorder.TOP);
-//		borderInfoLD.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,18));
-//		borderInfoLD.setTitleColor(ivory);
-//		scrollLD.setBorder(borderInfoLD);
+		TitledBorder borderInfoLD = new TitledBorder("LD Reservation Station");
+		borderInfoLD.setTitleJustification(TitledBorder.CENTER);
+		borderInfoLD.setTitlePosition(TitledBorder.TOP);
+		borderInfoLD.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
+		borderInfoLD.setTitleColor(ivory);
+		scrollLD.setBorder(borderInfoLD);
 		
 		
 		this.add(scrollLD);
@@ -100,15 +101,16 @@ public class RSPanel extends JPanel {
 			{"1","1","","A1","R2"},
 			{"2","0","","",""},
 			{"3","0","","",""},
+			{"","","","",""},
 		};
 
 		JTable tableSD = new JTable(dataSD,columnsSD);
 		tableSD.setGridColor(Color.white);
 		tableSD.setBackground(lightGray);
-//		tableSD.setPreferredSize(new Dimension(260,800));
+//		tableSD.setPreferredSize(new Dimension(250,100));
 		tableSD.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableSD.setRowHeight(25);
-
+		tableSD.setEnabled(false);
 		tableSD.getColumnModel().getColumn(0).setPreferredWidth(0);
 
 		for(int x = 0 ; x < 2 ; x++){
@@ -124,7 +126,16 @@ public class RSPanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollSD = new JScrollPane(tableSD);
-		scrollSD.setPreferredSize(new Dimension(290,330));
+		scrollSD.setPreferredSize(new Dimension(250,130));
+//		scrollSD.setSize(250, 100);
+		
+		TitledBorder borderInfoSD = new TitledBorder("SD Reservation Station");
+		borderInfoSD.setTitleJustification(TitledBorder.CENTER);
+		borderInfoSD.setTitlePosition(TitledBorder.TOP);
+		borderInfoSD.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
+		borderInfoSD.setTitleColor(ivory);
+		scrollSD.setBorder(borderInfoSD);
+		
 		this.add(scrollSD);
 		
 		
@@ -146,10 +157,10 @@ public class RSPanel extends JPanel {
 		JTable tableADD = new JTable(dataADD,columnsADD);
 		tableADD.setGridColor(Color.white);
 		tableADD.setBackground(lightGray);
-//		tableADD.setPreferredSize(new Dimension(260,250));
+//		tableADD.setPreferredSize(new Dimension(250,80));
 		tableADD.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableADD.setRowHeight(25);
-
+		tableADD.setEnabled(false);
 		tableADD.getColumnModel().getColumn(0).setPreferredWidth(0);
 
 		for(int x = 0 ; x < 2 ; x++){
@@ -165,7 +176,15 @@ public class RSPanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollADD = new JScrollPane(tableADD);
-		scrollADD.setPreferredSize(new Dimension(290,330));
+		scrollADD.setPreferredSize(new Dimension(250,130));
+		
+		TitledBorder borderInfoADD = new TitledBorder("ADD Reservation Station");
+		borderInfoADD.setTitleJustification(TitledBorder.CENTER);
+		borderInfoADD.setTitlePosition(TitledBorder.TOP);
+		borderInfoADD.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
+		borderInfoADD.setTitleColor(ivory);
+		scrollADD.setBorder(borderInfoADD);
+		
 		this.add(scrollADD);
 		
 
@@ -188,10 +207,10 @@ public class RSPanel extends JPanel {
 		JTable tableMUL = new JTable(dataMUL,columnsMUL);
 		tableMUL.setGridColor(Color.white);
 		tableMUL.setBackground(lightGray);
-//		tableMUL.setPreferredSize(new Dimension(260,250));
+//		tableMUL.setPreferredSize(new Dimension(260,80));
 		tableMUL.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableMUL.setRowHeight(25);
-
+		tableMUL.setEnabled(false);
 		tableMUL.getColumnModel().getColumn(0).setPreferredWidth(0);
 
 		for(int x = 0 ; x < 2 ; x++){
@@ -207,8 +226,19 @@ public class RSPanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollMUL = new JScrollPane(tableMUL);
-		scrollMUL.setPreferredSize(new Dimension(290,330));
+		scrollMUL.setPreferredSize(new Dimension(250,130));
+		
+		TitledBorder borderInfoMUL = new TitledBorder("MUL Reservation Station");
+		borderInfoMUL.setTitleJustification(TitledBorder.CENTER);
+		borderInfoMUL.setTitlePosition(TitledBorder.TOP);
+		borderInfoMUL.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
+		borderInfoMUL.setTitleColor(ivory);
+		scrollMUL.setBorder(borderInfoMUL);
+		
 		this.add(scrollMUL);
+		
+		this.validate();
+		this.repaint();
 
 	}
 

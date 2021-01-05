@@ -18,15 +18,22 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+
+//TODO: isDone --> deactivate (start-next-done)
+//TODO: all filling functions
+//TODO: next ActionListener
 public class GUI extends JFrame implements WindowListener, ActionListener{
 	JPanel allSections,rightSection,upperSection, lowerSection, centerSection;
-	JTextArea cycles;
-
-
+	JButton nextBtn;
+	int clickedNext =0;
+	String CC = "Clock Cycle number: " + clickedNext;
+//	JTextField clockCycles;
+	
 	//colors
 	Color darkBlue = new Color(25,25,112);
 	Color lightGray = new Color(245,245,245);
@@ -37,7 +44,6 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 
 
 	public GUI() {
-		this.pack();
 		this.setVisible(true);
 		this.setSize(1200, 1200);
 		this.setTitle("CPU's Gambit");
@@ -57,13 +63,15 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		/* ---------- Upper Part --------------*/
 		upperSection = new JPanel();
 		upperSection.setVisible(true);
-		upperSection.setBackground(Color.blue);
-		upperSection.setPreferredSize(new Dimension((int) this.getSize().getWidth(), 80));
+		upperSection.setBackground(lightGray);
+		upperSection.setPreferredSize(new Dimension((int) this.getSize().getWidth(), 30));
 
-		JLabel CCTitle = new JLabel();
-		CCTitle.setText("Clock Cycles");
-		upperSection.add(CCTitle);
-
+		JLabel clockCycles = new JLabel();
+		clockCycles.setText(CC);
+		clockCycles.setFont(new Font(Font.SANS_SERIF, Font.BOLD,18));
+		clockCycles.setForeground(darkBlue);
+//		clockCycles.setEditable(false);
+		upperSection.add(clockCycles);
 
 		allSections.add(upperSection, BorderLayout.PAGE_START);
 
@@ -77,6 +85,7 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		centerSection.setLayout(new GridLayout(2,1)); //2 items so far (RegFile, IEW table)
 		
 		centerSection.add(new RegFilePanel());
+		centerSection.add(new IEWPanel());
 
 
 		allSections.add(centerSection, BorderLayout.CENTER);
@@ -96,19 +105,24 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		/* ---------- Lower Part --------------*/
 		lowerSection = new JPanel();
 		lowerSection.setVisible(true);
-		lowerSection.setBackground(Color.blue);
-		lowerSection.setPreferredSize(new Dimension((int) this.getSize().getWidth(), 80));
+		lowerSection.setBackground(lightGray);
+		lowerSection.setPreferredSize(new Dimension((int) this.getSize().getWidth(), 30));
 
-		JLabel NextTitle = new JLabel();
-		NextTitle.setText("NEXT");
-		lowerSection.add(NextTitle);
-
+		nextBtn = new JButton();
+		nextBtn.setText("NEXT");
+		nextBtn.setBackground(darkRed);
+		nextBtn.setFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
+		nextBtn.setSize(100,15);
+		
+		
+		lowerSection.add(nextBtn);
 
 		allSections.add(lowerSection, BorderLayout.PAGE_END);
 		
 		
 		
-		
+		this.validate();
+		this.repaint();
 		this.pack();
 	}
 
