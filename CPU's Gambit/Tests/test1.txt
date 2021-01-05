@@ -4,3 +4,14 @@ ADD F7,F2,F6
 ADD F10,F8,F9
 MUL F11,F7,F10
 ADD F5,F5,F11
+#
+Load Reservation Stations : 3
+Store Reservation Stations : 2
+Add Reservation Stations : 3
+Multiply Reservation Stations : 2
+Load Cycles : 2
+Store Cycles : 2
+Add Cycles : 4
+Sub Cycles : 2
+Mul Cycles : 6
+Div Cycles : 40

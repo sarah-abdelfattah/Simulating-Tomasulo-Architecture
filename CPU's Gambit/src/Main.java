@@ -18,13 +18,8 @@ public class Main {
 	static InstructionUnit instructionUnit;
 	static MemoryUnit memoryUnit;
 	static RegisterFile registerFile;
+	static int loadCycles,storeCycles,addCycles,subCycles,mulCycles,divCycles;
 	static void init() throws IOException{
-		LDResStation = new ReservationStation("LD", 3);
-		SDResStation = new ReservationStation("SD", 2);
-
-		addResStation = new ReservationStation("ADD", 3);
-		mulResStation = new ReservationStation("MUL", 2);
-
 		instructionUnit = new InstructionUnit(32);
 		// fill instruction unit .. done --> at run TODO: text file
 		memoryUnit = new MemoryUnit(1024);
@@ -42,17 +37,25 @@ public class Main {
 		  
 		  BufferedReader br = new BufferedReader(new FileReader(file)); 
 		  String st; 
-		  while ((st = br.readLine()) != null)
+		  while (!(st = br.readLine()).equals("#"))
 			  instructionUnit.add(st);
 		  
-		//		Thread.sleep(3000);
-//		for(int i = 0 ; i<instructionUnit.instArr.length && !s.equals("#") ; i++) {
-////			instructionUnit.add(s);
-//			s = sc.nextLine();
-//		}
+		  LDResStation = new ReservationStation("LD", Integer.parseInt(br.readLine().split(" ")[4]));
+		  SDResStation = new ReservationStation("SD",  Integer.parseInt(br.readLine().split(" ")[4]));
+
+		  addResStation = new ReservationStation("ADD",  Integer.parseInt(br.readLine().split(" ")[4]));
+		  mulResStation = new ReservationStation("MUL",  Integer.parseInt(br.readLine().split(" ")[4]));
+
+		  loadCycles=Integer.parseInt(br.readLine().split(" ")[3]);
+		  storeCycles=Integer.parseInt(br.readLine().split(" ")[3]);
+          addCycles=Integer.parseInt(br.readLine().split(" ")[3]);
+		  subCycles=Integer.parseInt(br.readLine().split(" ")[3]);
+		  mulCycles=Integer.parseInt(br.readLine().split(" ")[3]);
+		  divCycles=Integer.parseInt(br.readLine().split(" ")[3]);
+
 //		//fill data
 		fillDummy();
-		new GUI();
+		//new GUI();
 
 		//		System.out.println(instructionUnit);
 	}
@@ -189,10 +192,15 @@ public class Main {
 			int index = -1;
 			int tagIndex = Integer.parseInt(reservationTag.substring(1)); //S1
 			for(int i = 0; i<SDResStation.resEntries.length ; i++) {
-				if(tagIndex==i+1 && SDResStation.resEntries[i]!=null)
+				//System.out.println("tag: "+tagIndex);
+				if(tagIndex==i+1 && SDResStation.resEntries[i]!=null) {
 					index = SDResStation.resEntries[i].A;
+					memoryUnit.set(index, value);
+					//SDResStation.resEntries[i].jReady=0;
+					//SDResStation.resEntries[i].vj = value;
+				}
 			}
-			memoryUnit.set(index, value);
+		
 		} else {
 			//loop through RegFile
 			for(int i = 0; i < registerFile.file.length ; i++ ) {
@@ -229,6 +237,14 @@ public class Main {
 					mulResStation.resEntries[i].kReady = currentCycle;
 				}
 			}
+			for(int i = 0; i< SDResStation.resEntries.length ; i++ ) {
+				if(SDResStation.resEntries[i] != null &&  SDResStation.resEntries[i].qj.equals(reservationTag)) {
+					SDResStation.resEntries[i].vj = value;
+					SDResStation.resEntries[i].qj = "0";
+					SDResStation.resEntries[i].jReady = currentCycle;
+				}
+				
+			}
 		}
 	}
 
@@ -263,15 +279,18 @@ public class Main {
 
 	private static int getPromisedCycles(Instruction cur) {
 		String op=cur.type;
-		//TODO: to be changed
-		if(op.equals("LD") || op.equals("SD"))
-			return 2;
-		else if(op.equals("ADD") || op.equals("SUB"))
-			return 2;
+		if(op.equals("LD") )
+			return loadCycles;
+		else if(op.equals("SD")) 
+			return storeCycles;
+		else if(op.equals("ADD"))
+			return addCycles;
+		else if( op.equals("SUB"))
+			return subCycles;
 		else if(op.equals("MUL"))
-			return 10;
+			return mulCycles;
 		else 
-			return 40; //DIV		
+			return divCycles; //DIV		
 	}
 
 
@@ -290,7 +309,7 @@ public class Main {
 		} else{//ADD OR SUB
 			res=addResStation.resEntries[idx];
 		}
-		//		System.out.println("res: " + res);
+				System.out.println("res: " + res);
 		return res.qj.equals("0") 
 				&& res.qk.equals("0") 
 				&& res.jReady != -1

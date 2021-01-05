@@ -97,9 +97,11 @@ public class ReservationStation {
 				if(rf.file[idx].qi.equals("0")) {
 					vj=rf.file[idx].content;
 					jReady=0;
+					
 				}else {
 					qj=rf.file[idx].qi;
 				}
+				kReady=0;//edited
 			}
 		} else {
 			int index = Integer.parseInt(inst.src1.substring(1)+"");

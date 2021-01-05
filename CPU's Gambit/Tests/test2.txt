@@ -5,3 +5,13 @@ SUB F8,F2,F6
 DIV F10,F0,F6
 ADD F6,F8,F2
 #
+Load Reservation Stations : 3
+Store Reservation Stations : 2
+Add Reservation Stations : 3
+Multiply Reservation Stations : 2
+Load Cycles : 2
+Store Cycles : 2
+Add Cycles : 2
+Sub Cycles : 2
+Mul Cycles : 10
+Div Cycles : 40
