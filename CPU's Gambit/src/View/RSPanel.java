@@ -27,8 +27,8 @@ public class RSPanel extends JPanel {
 	public RSPanel() {
 		this.setVisible(true);
 		this.setBackground(lightGray);
-		this.setPreferredSize(new Dimension(300,(int) this.getSize().getHeight()-50));
-		this.setLayout(new GridLayout(5,1));
+		this.setPreferredSize(new Dimension(600,900));
+		this.setLayout(new GridLayout(5,1,0,40));
 
 //		TitledBorder borderInfoRS = new TitledBorder("Reservation Stations");
 //		borderInfoRS.setTitleJustification(TitledBorder.CENTER);
@@ -74,7 +74,7 @@ public class RSPanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollLD = new JScrollPane(tableLD);
-		scrollLD.setPreferredSize(new Dimension(250,130));
+		scrollLD.setPreferredSize(new Dimension(450,270));
 		
 		TitledBorder borderInfoLD = new TitledBorder("LD Reservation Station");
 		borderInfoLD.setTitleJustification(TitledBorder.CENTER);
@@ -120,7 +120,7 @@ public class RSPanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollSD = new JScrollPane(tableSD);
-		scrollSD.setPreferredSize(new Dimension(250,130));
+		scrollSD.setPreferredSize(new Dimension(450,270));
 //		scrollSD.setSize(250, 100);
 		
 		TitledBorder borderInfoSD = new TitledBorder("SD Reservation Station");
@@ -151,9 +151,9 @@ public class RSPanel extends JPanel {
 		tableADD.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableADD.setRowHeight(25);
 		tableADD.setEnabled(false);
-		tableADD.getColumnModel().getColumn(0).setPreferredWidth(0);
+		tableADD.getColumnModel().getColumn(0).setPreferredWidth(50);
 
-		for(int x = 0 ; x < 2 ; x++){
+		for(int x = 0 ; x < 7 ; x++){
 			tableADD.getColumnModel().getColumn(x).setCellRenderer( centerRenderer );
 		}
 
@@ -166,7 +166,7 @@ public class RSPanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollADD = new JScrollPane(tableADD);
-		scrollADD.setPreferredSize(new Dimension(250,130));
+		scrollADD.setPreferredSize(new Dimension(450,270));
 		
 		TitledBorder borderInfoADD = new TitledBorder("ADD Reservation Station");
 		borderInfoADD.setTitleJustification(TitledBorder.CENTER);
@@ -197,7 +197,7 @@ public class RSPanel extends JPanel {
 		tableMUL.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableMUL.setRowHeight(25);
 		tableMUL.setEnabled(false);
-		tableMUL.getColumnModel().getColumn(0).setPreferredWidth(0);
+		tableMUL.getColumnModel().getColumn(0).setPreferredWidth(50);
 
 		for(int x = 0 ; x < 2 ; x++){
 			tableMUL.getColumnModel().getColumn(x).setCellRenderer( centerRenderer );
@@ -212,7 +212,7 @@ public class RSPanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollMUL = new JScrollPane(tableMUL);
-		scrollMUL.setPreferredSize(new Dimension(250,130));
+		scrollMUL.setPreferredSize(new Dimension(450,270));
 		
 		TitledBorder borderInfoMUL = new TitledBorder("MUL Reservation Station");
 		borderInfoMUL.setTitleJustification(TitledBorder.CENTER);
@@ -254,10 +254,10 @@ public class RSPanel extends JPanel {
 		ReservationStation res=Main.addResStation;
 		Object[][] add=new Object[res.resEntries.length][7];
 		for(int i=0;i<add.length;i++) {
-			add[i][0]= "S"+(i+1);
+			add[i][0]= "A"+(i+1);
 			//mul[i][6]="";
 			ResEntry re=res.resEntries[i];
-			System.out.println(re);
+			//System.out.println(re);
 			if(re==null) {
 				add[i][6]="0";
 				add[i][1]=add[i][2]=add[i][3]=add[i][4]=add[i][5]="";
@@ -277,7 +277,7 @@ public class RSPanel extends JPanel {
 		ReservationStation res=Main.SDResStation;
 		Object[][] SD=new Object[res.resEntries.length][7];
 		for(int i=0;i<SD.length;i++) {
-			SD[i][0]= "A"+(i+1);
+			SD[i][0]= "S"+(i+1);
 			//mul[i][6]="";
 			ResEntry re=res.resEntries[i];
 			if(re==null) {

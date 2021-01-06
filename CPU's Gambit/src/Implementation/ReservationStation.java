@@ -5,7 +5,7 @@ public class ReservationStation {
 
 	public ResEntry[] resEntries;
 
-	int []integerRegisters;//Array for R0,R1,R2,...,R31 . Having values --> 0,16,32,48,...,496
+	public int []integerRegisters;//Array for R0,R1,R2,...,R31 . Having values --> 0,16,32,48,...,496
 	public ReservationStation(String type, int size) {
 		this.type = type;
 		resEntries = new ResEntry[size];
@@ -104,7 +104,7 @@ public class ReservationStation {
 				}
 				kReady=0;//edited
 			}
-			address=offset+data[1].substring(0,data[1].length()-1);
+			address=offset+"+"+data[1].substring(0,data[1].length()-1)+"="+A;
 			
 		} else {
 			int index = Integer.parseInt(inst.src1.substring(1)+"");

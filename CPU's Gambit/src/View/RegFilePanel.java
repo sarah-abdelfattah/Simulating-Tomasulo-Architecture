@@ -69,7 +69,7 @@ public class RegFilePanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollRegFile = new JScrollPane(tableRegFile);
-		scrollRegFile.setPreferredSize(new Dimension(485,250));
+		scrollRegFile.setPreferredSize(new Dimension(650,430));
 		this.add(scrollRegFile);
 		
 		
@@ -95,7 +95,6 @@ public class RegFilePanel extends JPanel {
 			reg[i][1]=qi;
 			reg[i][2]=content;
 		}
-		// TODO Auto-generated method stub
 		return reg;
 	}
 

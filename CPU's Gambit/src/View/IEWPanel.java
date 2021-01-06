@@ -75,7 +75,7 @@ public class IEWPanel extends JPanel{
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollIEW = new JScrollPane(tableIEW);
-		scrollIEW.setPreferredSize(new Dimension(560,250));
+		scrollIEW.setPreferredSize(new Dimension(1000,430));
 		this.add(scrollIEW);
 		
 		

@@ -49,7 +49,7 @@ public class intRegPanel extends JPanel {
 		tableIntRegFile.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableIntRegFile.setRowHeight(25);
 		tableIntRegFile.setEnabled(false);
-		tableIntRegFile.getColumnModel().getColumn(0).setPreferredWidth(0);
+		tableIntRegFile.getColumnModel().getColumn(0).setPreferredWidth(30);
 
 		//to center text
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -68,27 +68,18 @@ public class intRegPanel extends JPanel {
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollIntRegFile = new JScrollPane(tableIntRegFile);
-		scrollIntRegFile.setPreferredSize(new Dimension(128,250));
+		scrollIntRegFile.setPreferredSize(new Dimension(128,430));
 		this.add(scrollIntRegFile);
 	}
 
 	
 	private Object[][] getIntReg() {
-		//TODO:
-		Object[][] reg= new Object[23][2];
-//		new Object[rf.file.length][2];
-//		System.out.println(reg.length);
-//		for(int i=0;i<reg.length;i++) {
-//			reg[i][0]="F"+i;
-//			String content="";
-//			RegEntry res=rf.file[i];
-//			if(rf.file[i].qi.equals("0")) {
-//				content=""+res.content;
-//			}else {
-//				qi=""+res.qi;
-//			}
-//			reg[i][2]=content;
-//		}
+		ReservationStation rs=Main.addResStation;
+		Object[][] reg= new Object[32][2];
+		for(int i=0;i<rs.integerRegisters.length;i++) {
+			reg[i][0]="R"+i;
+			reg[i][1]=""+rs.integerRegisters[i];
+		}
 		return reg;
 	}
 

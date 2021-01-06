@@ -52,7 +52,9 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		Main.init();
 		rfp=new RegFilePanel();
 		this.setVisible(true);
-		this.setSize(1200, 1200);
+		this.setSize(2000, 100);
+		this.setExtendedState(JFrame.MAXIMIZED_HORIZ);
+		//this.setUndecorated(true);
 		this.setTitle("CPU's Gambit");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.getContentPane().setBackground(Color.WHITE);
@@ -93,7 +95,7 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		centerSection.setPreferredSize(new Dimension(300,(int) this.getSize().getHeight()));
 		centerSection.setLayout(new GridLayout(2,1)); //2 items so far (RegFile, IEW table)
 		
-		centerSection.add(new IEWPanel());
+		
 
 		registers = new JPanel();
 		registers.setVisible(true);
@@ -106,6 +108,7 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		registers.add(rfp, BorderLayout.CENTER);
 		
 		centerSection.add(registers);
+		centerSection.add(new IEWPanel());
 		allSections.add(centerSection, BorderLayout.CENTER);
 
 
@@ -139,25 +142,28 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 				// TODO Auto-generated method stub
 					try {
 						int x=Main.nextCycle();
-						if(x==-1) {
-							done=true;
-						}
+						
 						if(!done) {
 							
 							clickedNext++;
 							clockCycles.setText("Clock Cycle number: " + clickedNext);
-							centerSection.removeAll();
+							centerSection.remove(1);
+							registers.remove(1);
 							centerSection.add(new IEWPanel());
-							centerSection.add(new RegFilePanel());
+							registers.add(new RegFilePanel());
 							
 							
+							allSections.remove(2);
 							allSections.remove(3);
 							allSections.remove(lowerSection);
-							//allSections.remove(4);
+
+							allSections.add(new IUPanel(), BorderLayout.LINE_START);
 							allSections.add(new RSPanel(), BorderLayout.LINE_END);
 							allSections.add(lowerSection, BorderLayout.PAGE_END);
 							//pack();
-							
+							if(x==-1) {
+								done=true;
+							}
 						}
 						//System.out.println("x:"+x);
 					} catch (IOException e1) {
