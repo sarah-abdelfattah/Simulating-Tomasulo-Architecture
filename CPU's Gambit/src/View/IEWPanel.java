@@ -13,6 +13,11 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+import Implementation.InstructionUnit;
+import Implementation.Main;
+
+import Implementation.*;
+
 public class IEWPanel extends JPanel{
 	Color darkBlue = new Color(25,25,112);
 	Color lightGray = new Color(245,245,245);
@@ -41,21 +46,13 @@ public class IEWPanel extends JPanel{
 		//        data for the table in a 2d array
 //		Object[][] dataIU = IEWfillGUI();
 
-				Object[][] dataIEW = new Object[][] {
-					{"1","MUL F3,F1,F2","1","2","4"},
-					{"2","ADD F5,F3,F4","1","2","4"},
-					{"3","ADD F7,F2,F6","1","2","4"},
-					{"4","ADD F7,F2,F6","1","2","4"},
-					{"5","ADD F7,F2,F6","1","2","4"},
-					{"6","ADD F7,F2,F6","1","2","4" },
-					{"7","","","",""},
-				};
+				Object[][] dataIEW =IEWfillGUI();
 
 		//create table with data
 		JTable tableIEW = new JTable(dataIEW, columnsIEW);
 		tableIEW.setGridColor(Color.white);
 		tableIEW.setBackground(lightGray);
-		tableIEW.setPreferredSize(new Dimension(560,250));
+		//tableIEW.setPreferredSize(new Dimension(560,250));
 		tableIEW.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableIEW.setRowHeight(25);
 		tableIEW.setEnabled(false);
@@ -87,8 +84,19 @@ public class IEWPanel extends JPanel{
 
 
 	private Object[][] IEWfillGUI() {
-		// TODO Auto-generated method stub
-		return null;
+		InstructionUnit iu=Main.instructionUnit;
+		String[]insts=Main.insts;
+		Object[][] dataIEW=new Object[32][5];
+		for(int i=0;i<insts.length;i++) {
+			String inst=insts[i];
+			if(inst==null)break;
+			dataIEW[i][0]=""+(i+1);
+			dataIEW[i][1]=inst;
+			dataIEW[i][2]=iu.instArr[i].issueCycle==0?"":iu.instArr[i].issueCycle;
+			dataIEW[i][3]=iu.instArr[i].executionCycle==0?"":iu.instArr[i].executionCycle+"->"+(iu.instArr[i].finishExecCycle==0?"":iu.instArr[i].finishExecCycle);
+			dataIEW[i][4]=iu.instArr[i].finishCycle==0?"":iu.instArr[i].finishCycle;
+		}
+		return dataIEW;
 	}
 
 }

@@ -16,13 +16,14 @@ import View.GUI;
 //if 2 inst try to write on the bus at the same time , FIFO scheme will be done 
 //to test load and store problem , try this
 public class Main {
-	static ReservationStation LDResStation, SDResStation, addResStation, mulResStation;
-	static InstructionUnit instructionUnit;
+	public static ReservationStation LDResStation, SDResStation, addResStation, mulResStation;
+	public static InstructionUnit instructionUnit;
 	static MemoryUnit memoryUnit;
 	public static RegisterFile registerFile;
 	static int loadCycles,storeCycles,addCycles,subCycles,mulCycles,divCycles;
 	static int lastIssued=-1;
 	static int curCycle=1;
+	public static String[]insts;
 	public static void init() throws IOException{
 		instructionUnit = new InstructionUnit(32);
 		// fill instruction unit .. done --> at run TODO: text file
@@ -30,7 +31,7 @@ public class Main {
 		// fill memory unit .. done --> filldummy()
 		registerFile = new RegisterFile(32);//32 fp regs
 		// fill register file with RegEntry  .. done --> filldummy()
-
+		insts=new String[32];
 //		System.out.println("Please enter # when finished");
 //		Scanner sc = new Scanner(System.in);
 //		String s = sc.nextLine();
@@ -41,8 +42,11 @@ public class Main {
 		  
 		  BufferedReader br = new BufferedReader(new FileReader(file)); 
 		  String st; 
-		  while (!(st = br.readLine()).equals("#"))
+		  int i=0;
+		  while (!(st = br.readLine()).equals("#")) {
 			  instructionUnit.add(st);
+			  insts[i++]=st;
+		  }
 		  
 		  LDResStation = new ReservationStation("LD", Integer.parseInt(br.readLine().split(" ")[4]));
 		  SDResStation = new ReservationStation("SD",  Integer.parseInt(br.readLine().split(" ")[4]));
@@ -133,6 +137,9 @@ public class Main {
 
 				//ex>0 to ensure it's already executing , finish==0 to ensure it's still executing and did not finish yet,3rd condition to check if it's eligible for
 				//writing result(done executing in the reservation) , last condition to check if it can publish the result or not(cdb is not busy)
+				if(executionCycle!=0&&curCycle-executionCycle==getPromisedCycles(cur)-1) {
+					cur.finishExecCycle=curCycle;
+				}
 				if(executionCycle>0
 						&&finishCycle==0
 						&&curCycle-executionCycle>=getPromisedCycles(cur)
@@ -320,7 +327,7 @@ public class Main {
 		} else{//ADD OR SUB
 			res=addResStation.resEntries[idx];
 		}
-				System.out.println("res: " + res);
+				//System.out.println("res: " + res);
 		return res.qj.equals("0") 
 				&& res.qk.equals("0") 
 				&& res.jReady != -1

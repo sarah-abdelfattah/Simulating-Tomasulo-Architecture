@@ -1,9 +1,9 @@
 package Implementation;
 
 public class ReservationStation {
-	String type; //ADD, MUL, LD, SD
+	public String type; //ADD, MUL, LD, SD
 
-	ResEntry[] resEntries;
+	public ResEntry[] resEntries;
 
 	int []integerRegisters;//Array for R0,R1,R2,...,R31 . Having values --> 0,16,32,48,...,496
 	public ReservationStation(String type, int size) {
@@ -81,7 +81,7 @@ public class ReservationStation {
 		String qj = "0", qk = "0";
 		int A=0;		//when is it computed? upon issuing directly(right here)
 		int jReady=-1, kReady =-1;
-
+		String address="";
 
 		if(op.equals("LD") || op.equals("SD")) {
 			String[] data = inst.src1.split("\\("); //25(R1) -> 25 , R1)
@@ -104,10 +104,12 @@ public class ReservationStation {
 				}
 				kReady=0;//edited
 			}
+			address=offset+data[1].substring(0,data[1].length()-1);
+			
 		} else {
 			int index = Integer.parseInt(inst.src1.substring(1)+"");
 			int index2 = Integer.parseInt(inst.src2.substring(1)+"");
-			System.out.println("index: " + index + " index2: " + index2);
+			//System.out.println("index: " + index + " index2: " + index2);
 
 			//check for src1 operand if it has a value or a reference
 			if(rf.file[index].qi.equals("0")) {
@@ -142,7 +144,7 @@ public class ReservationStation {
 //
 //			rf.file[idx].qi = inst.reservationTag;//writing in reg file
 //		}
-		return new ResEntry(op, vj, vk, qj, qk, A, jReady, kReady);		
+		return new ResEntry(op, vj, vk, qj, qk, A, jReady, kReady,address);		
 	}
 
 	public String toString() {

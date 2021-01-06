@@ -1,7 +1,7 @@
 package Implementation;
 public class InstructionUnit {
-	Instruction[] instArr;
-	int numberOfinputs;
+	public Instruction[] instArr;
+	public int numberOfinputs;
 
 	public InstructionUnit(int n) {
 		instArr = new Instruction[n];	

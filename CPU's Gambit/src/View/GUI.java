@@ -138,9 +138,16 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 							
 							clickedNext++;
 							clockCycles.setText("Clock Cycle number: " + clickedNext);
-							centerSection.remove(1);
+							centerSection.removeAll();
+							centerSection.add(new IEWPanel());
 							centerSection.add(new RegFilePanel());
-							repaint();
+							
+							
+							allSections.remove(3);
+							allSections.remove(lowerSection);
+							//allSections.remove(4);
+							allSections.add(new RSPanel(), BorderLayout.LINE_END);
+							allSections.add(lowerSection, BorderLayout.PAGE_END);
 							//pack();
 							
 						}

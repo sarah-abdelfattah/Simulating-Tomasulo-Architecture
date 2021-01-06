@@ -13,6 +13,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 
+import Implementation.Main;
+import Implementation.ResEntry;
+import Implementation.ReservationStation;
+
 public class RSPanel extends JPanel {
 	Color darkBlue = new Color(25,25,112);
 	Color lightGray = new Color(245,245,245);
@@ -45,12 +49,7 @@ public class RSPanel extends JPanel {
 		};
 
 		//		Object[][] dataLD = LDfillGUI();
-		Object[][] dataLD = new Object[][] {
-			{"1","1","23"},
-			{"2","0","49"},
-			{"3","0","111"},
-			{"","",""},
-		};
+		Object[][] dataLD =LDfillGUI();
 
 		JTable tableLD = new JTable(dataLD, columnsLD);
 		tableLD.setGridColor(Color.white);
@@ -97,12 +96,7 @@ public class RSPanel extends JPanel {
 		//        data for the table in a 2d array
 		//		Object[][] dataSD = SDfillGUI();
 
-		Object[][] dataSD = new Object[][] {
-			{"1","1","","A1","R2"},
-			{"2","0","","",""},
-			{"3","0","","",""},
-			{"","","","",""},
-		};
+		Object[][] dataSD = SDfillGUI();
 
 		JTable tableSD = new JTable(dataSD,columnsSD);
 		tableSD.setGridColor(Color.white);
@@ -148,11 +142,7 @@ public class RSPanel extends JPanel {
 		//        data for the table in a 2d array
 //				Object[][] dataADD = ADDfillGUI();
 
-		Object[][] dataADD = new Object[][] {
-			{"1","ADD","","F2","M1","0","1"},
-			{"2","SUB","F3","F2","0","0","1"},
-			{"3","","","","","","0"},
-		};
+		Object[][] dataADD = ADDfillGUI();
 
 		JTable tableADD = new JTable(dataADD,columnsADD);
 		tableADD.setGridColor(Color.white);
@@ -198,11 +188,7 @@ public class RSPanel extends JPanel {
 		//        data for the table in a 2d array
 //				Object[][] dataMUL = MULfillGUI();
 
-		Object[][] dataMUL = new Object[][] {
-			{"1","MUL","","F2","M1","0","1"},
-			{"2","DIV","F3","F2","0","0","1"},
-			{"3","","","","","","0"},
-		};
+		Object[][] dataMUL = MULfillGUI();
 
 		JTable tableMUL = new JTable(dataMUL,columnsMUL);
 		tableMUL.setGridColor(Color.white);
@@ -243,22 +229,85 @@ public class RSPanel extends JPanel {
 	}
 
 	private Object[][] MULfillGUI() {
-		// TODO Auto-generated method stub
-		return null;
+		ReservationStation res=Main.mulResStation;
+		Object[][] mul=new Object[res.resEntries.length][7];
+		for(int i=0;i<mul.length;i++) {
+			mul[i][0]= "M"+(i+1);
+			//mul[i][6]="";
+			ResEntry re=res.resEntries[i];
+			if(re==null) {
+				mul[i][6]="0";
+				mul[i][1]=mul[i][2]=mul[i][3]=mul[i][4]=mul[i][5]="";
+			}else {
+				mul[i][6]="1";
+				mul[i][1]=re.op;
+				mul[i][2]=re.qj.equals("0")?re.vj:"";
+				mul[i][3]=re.qk.equals("0")?re.vk:"";
+				mul[i][4]=!re.qj.equals("0")?re.qj:"";
+				mul[i][5]=!re.qk.equals("0")?re.qk:"";
+			}
+		}
+		return mul;
 	}
 
 	private Object[][] ADDfillGUI() {
-		// TODO Auto-generated method stub
-		return null;
+		ReservationStation res=Main.addResStation;
+		Object[][] add=new Object[res.resEntries.length][7];
+		for(int i=0;i<add.length;i++) {
+			add[i][0]= "S"+(i+1);
+			//mul[i][6]="";
+			ResEntry re=res.resEntries[i];
+			System.out.println(re);
+			if(re==null) {
+				add[i][6]="0";
+				add[i][1]=add[i][2]=add[i][3]=add[i][4]=add[i][5]="";
+			}else {
+				add[i][6]="1";
+				add[i][1]=re.op;
+				add[i][2]=re.qj.equals("0")?re.vj:"";
+				add[i][3]=re.qk.equals("0")?re.vk:"";
+				add[i][4]=!re.qj.equals("0")?re.qj:"";
+				add[i][5]=!re.qk.equals("0")?re.qk:"";
+			}
+		}
+		return add;
 	}
 
 	private Object[][] SDfillGUI() {
-		// TODO Auto-generated method stub
-		return null;
+		ReservationStation res=Main.SDResStation;
+		Object[][] SD=new Object[res.resEntries.length][7];
+		for(int i=0;i<SD.length;i++) {
+			SD[i][0]= "A"+(i+1);
+			//mul[i][6]="";
+			ResEntry re=res.resEntries[i];
+			if(re==null) {
+				SD[i][1]="0";
+				SD[i][2]=SD[i][3]=SD[i][4]="";
+			}else {
+				SD[i][1]="1";
+				SD[i][2]=re.qj.equals("0")?re.vj:"";
+				SD[i][3]=!re.qj.equals("0")?re.qj:"";
+				SD[i][4]=re.address;
+			}
+		}
+		return SD;
 	}
 
 	private Object[][] LDfillGUI() {
-		// TODO Auto-generated method stub
-		return null;
+		ReservationStation res=Main.LDResStation;
+		Object[][] LD=new Object[res.resEntries.length][7];
+		for(int i=0;i<LD.length;i++) {
+			LD[i][0]= "L"+(i+1);
+			//mul[i][6]="";
+			ResEntry re=res.resEntries[i];
+			if(re==null) {
+				LD[i][1]="0";
+				LD[i][2]="";
+			}else {
+				LD[i][1]="1";
+				LD[i][2]=re.address;
+			}
+		}
+		return LD;
 	}
 }

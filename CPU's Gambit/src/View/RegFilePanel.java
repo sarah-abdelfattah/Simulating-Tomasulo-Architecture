@@ -79,9 +79,9 @@ public class RegFilePanel extends JPanel {
 
 	private Object[][] getReg() {
 		RegisterFile rf=Main.registerFile;
-		System.out.println(rf);
+		//System.out.println(rf);
 		Object[][] reg=new Object[rf.file.length][3];
-		System.out.println(reg.length);
+		//System.out.println(reg.length);
 		for(int i=0;i<reg.length;i++) {
 			reg[i][0]="F"+i;
 			String qi="";
