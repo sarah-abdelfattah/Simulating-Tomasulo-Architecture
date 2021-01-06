@@ -29,7 +29,7 @@ import Implementation.*;
 //TODO: all filling functions
 //TODO: next ActionListener
 public class GUI extends JFrame implements WindowListener, ActionListener{
-	JPanel allSections,rightSection,upperSection, lowerSection, centerSection;
+	JPanel allSections,rightSection,upperSection, lowerSection, centerSection, registers;
 	RegFilePanel rfp;
 	JButton nextBtn;
 	int clickedNext =0;
@@ -94,10 +94,18 @@ public class GUI extends JFrame implements WindowListener, ActionListener{
 		centerSection.setLayout(new GridLayout(2,1)); //2 items so far (RegFile, IEW table)
 		
 		centerSection.add(new IEWPanel());
-		centerSection.add(rfp);
+
+		registers = new JPanel();
+		registers.setVisible(true);
+		registers.setBackground(lightGray);
+		registers.setPreferredSize(new Dimension(300,((int) this.getSize().getHeight())/2-5));
+		registers.setLayout(new BorderLayout()); //2 items so far (RegFile, IEW table)
 		
-
-
+//		registers.add(intReg);
+		registers.add(new intRegPanel(), BorderLayout.LINE_START);
+		registers.add(rfp, BorderLayout.CENTER);
+		
+		centerSection.add(registers);
 		allSections.add(centerSection, BorderLayout.CENTER);
 
 

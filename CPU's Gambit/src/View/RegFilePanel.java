@@ -24,7 +24,7 @@ public class RegFilePanel extends JPanel {
 	public  RegFilePanel() {
 		this.setVisible(true);
 		this.setBackground(lightGray);
-		this.setPreferredSize(new Dimension(500, 500));
+		this.setPreferredSize(new Dimension(145,((int) this.getSize().getHeight()/2-7)));
 
 		TitledBorder borderInfoRegFile = new TitledBorder("Register File");
 		borderInfoRegFile.setTitleJustification(TitledBorder.CENTER);
@@ -62,14 +62,14 @@ public class RegFilePanel extends JPanel {
 		//edit header text
 		JTableHeader tableHeader = tableRegFile.getTableHeader();
 		tableHeader.setFont(new Font("Serif", Font.BOLD, 16));
-		tableHeader.setPreferredSize(new Dimension(260,25));
+		tableHeader.setPreferredSize(new Dimension(145,25));
 
 		DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) 
 				tableHeader.getDefaultRenderer();
 		renderer.setHorizontalAlignment(JLabel.CENTER);
 
 		JScrollPane scrollRegFile = new JScrollPane(tableRegFile);
-		scrollRegFile.setPreferredSize(new Dimension(560,250));
+		scrollRegFile.setPreferredSize(new Dimension(485,250));
 		this.add(scrollRegFile);
 		
 		
