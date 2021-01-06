@@ -130,7 +130,7 @@ public class Main {
 					current.issueCycle=curCycle;
 					lastIssued++;
 				}else {
-					s+="Cannot issue , wait for reservation station to be emptied";
+					s+="Cannot issue , wait for reservation station to be emptied\n";
 				}
 				//issue it , put it in corresponding reservation station
 			}
