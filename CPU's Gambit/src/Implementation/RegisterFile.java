@@ -1,9 +1,10 @@
+package Implementation;
 
 public class RegisterFile {
 
-	static class RegEntry{
-		String qi;
-		double content;
+	public static class RegEntry{
+		public String qi;
+		public double content;
 
 		RegEntry(String qi, double content) {
 			this.qi = qi;
