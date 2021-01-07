@@ -97,12 +97,10 @@ public class Main {
 			//if alu, does it have a place to reside in?
 			//if load,does it have a place to reside in? is it preceeded by a store of same effective address?
 			//if store,does it have a place to reside in? is it preceeded by a load/store of same effective address?
-			if(idx!=-1){
+			if(idx>=0){
 				s+="Instruction "+(lastIssued+2)+" is issued\n";
 				current.issueCycle=curCycle;
 				lastIssued++;
-			}else {
-				s+="Cannot issue , wait for reservation station to be emptied\n";
 			}
 			//issue it , put it in corresponding reservation station
 		}
@@ -341,14 +339,28 @@ public class Main {
 
 	private static int canBeIssued(Instruction current) {
 		String op=current.type;
-		if(op.equals("LD") )
-			return LDResStation.add(current,registerFile,LDResStation,SDResStation);
-		else if(op.equals("SD"))
-			return SDResStation.add(current,registerFile,LDResStation,SDResStation);
-		else if(op.equals("ADD.D") || op.equals("SUB.D"))
-			return addResStation.add(current,registerFile,LDResStation,SDResStation);
+		int x;
+		if(op.equals("LD") ) {
+			x = LDResStation.add(current,registerFile,LDResStation,SDResStation);
+			if(x==-2) {
+				s+="Cannot issue , load has a preceeding store of same address\n";
+			}
+
+		}
+		else if(op.equals("SD")) {
+			x = SDResStation.add(current,registerFile,LDResStation,SDResStation);
+			if(x==-2) {
+				s += "Cannot issue , store has a preceeding load or store of same address\n";
+			}
+		}
+		else if(op.equals("ADD") || op.equals("SUB"))
+			x= addResStation.add(current,registerFile,LDResStation,SDResStation);
 		else //MUL AND DIV
-			return mulResStation.add(current,registerFile,LDResStation,SDResStation);
+			x= mulResStation.add(current,registerFile,LDResStation,SDResStation);
+		if(x==-1) {
+			s+="Cannot issue , no space in corresping reservation station \n";
+		}
+		return x;
 	}
 
 	private static boolean done() {

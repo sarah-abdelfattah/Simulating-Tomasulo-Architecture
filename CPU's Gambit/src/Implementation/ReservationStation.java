@@ -28,7 +28,7 @@ public class ReservationStation {
 			//if cur is load it checks whether there is a store having the same effective address already exists
 			//if cur is store checks whether there is a store/load having the same effective address already exists
 			//those are handled in method conflicting
-			return -1;
+			return -2; //3lshan nefar2 between errors
 		}
 		resEntries[idx] = rs;
 
