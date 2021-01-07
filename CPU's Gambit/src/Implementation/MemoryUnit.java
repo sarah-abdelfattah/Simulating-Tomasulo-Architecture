@@ -8,7 +8,7 @@ public class MemoryUnit {
 	}
 
 	double get(int index) {
-		if(index>= mem.length||index<-1023) {
+		if(index>= mem.length||index<-1024) {
 			System.out.println("Sorry, index not valid");
 			return mem[mem.length-1];
 		}
@@ -19,7 +19,7 @@ public class MemoryUnit {
 	}
 
 	void set(int index, double value) {
-		if(index>= mem.length||index<-1023) {
+		if(index>= mem.length||index<-1024) {
 			System.out.println("Sorry, index not valid");
 			return;
 		}
