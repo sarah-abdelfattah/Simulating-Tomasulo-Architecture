@@ -1,9 +1,9 @@
 package Implementation;
 public class Instruction {
-    public	String type; //ADD, SUB, MUL, DIV, LD, SD
+	public	String type; //ADD, SUB, MUL, DIV, LD, SD
 
 	public String dest, src1, src2;
-	public int issueCycle,executionCycle,finishCycle,finishExecCycle;//beginning of issue , execution and finishing or writing result cycle
+	public int issueCycle,executionCycle,finishCycle,finishExecCycle;	//beginning of issue , execution and finishing or writing result cycle
 	public String reservationTag;
 	public Instruction(String type, String dest, String src1, String src2) {
 		this.type = type;

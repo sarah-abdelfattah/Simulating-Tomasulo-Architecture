@@ -17,7 +17,6 @@ import Implementation.RegisterFile.RegEntry;
 
 public class intRegPanel extends JPanel {
 	Color lightGray = new Color(245,245,245);
-	Color darkRed = new Color(204,0,0); 
 	Color ivory = new Color(25,25,112);
 
 	public  intRegPanel() {
@@ -37,9 +36,7 @@ public class intRegPanel extends JPanel {
 				"#","Content"
 		};
 
-//		Object[][] dataRegFile = RegFilefillGUI();
-
-				Object[][] dataIntRegFile = getIntReg();
+		Object[][] dataIntRegFile = getIntReg();
 
 		//create table with data
 		JTable tableIntRegFile = new JTable(dataIntRegFile, columnsIntRegFile);
@@ -72,7 +69,6 @@ public class intRegPanel extends JPanel {
 		this.add(scrollIntRegFile);
 	}
 
-	
 	private Object[][] getIntReg() {
 		ReservationStation rs=Main.addResStation;
 		Object[][] reg= new Object[32][2];
@@ -82,6 +78,4 @@ public class intRegPanel extends JPanel {
 		}
 		return reg;
 	}
-
-
 }

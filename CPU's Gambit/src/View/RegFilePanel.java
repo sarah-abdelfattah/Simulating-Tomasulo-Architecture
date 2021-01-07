@@ -15,10 +15,7 @@ import javax.swing.table.JTableHeader;
 import Implementation.*;
 import Implementation.RegisterFile.RegEntry;
 public class RegFilePanel extends JPanel {
-	Color darkBlue = new Color(25,25,112);
 	Color lightGray = new Color(245,245,245);
-	Color darkRed = new Color(204,0,0); 
-	Color seaShell = new Color(255,245,238);
 	Color ivory = new Color(25,25,112);
 
 	public  RegFilePanel() {
@@ -38,15 +35,12 @@ public class RegFilePanel extends JPanel {
 				"#","Qi","Content"
 		};
 
-//		Object[][] dataRegFile = RegFilefillGUI();
-
-				Object[][] dataRegFile = getReg();
+		Object[][] dataRegFile = getReg();
 
 		//create table with data
 		JTable tableRegFile = new JTable(dataRegFile, columnsRegFile);
 		tableRegFile.setGridColor(Color.white);
 		tableRegFile.setBackground(lightGray);
-		//tableRegFile.setPreferredSize(new Dimension(560,1000));
 		tableRegFile.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableRegFile.setRowHeight(25);
 		tableRegFile.setEnabled(false);
@@ -71,17 +65,11 @@ public class RegFilePanel extends JPanel {
 		JScrollPane scrollRegFile = new JScrollPane(tableRegFile);
 		scrollRegFile.setPreferredSize(new Dimension(650,430));
 		this.add(scrollRegFile);
-		
-		
-		
-//		this.setLayout(new GridLayout(2,1))
 	}
 
 	private Object[][] getReg() {
 		RegisterFile rf=Main.registerFile;
-		//System.out.println(rf);
 		Object[][] reg=new Object[rf.file.length][3];
-		//System.out.println(reg.length);
 		for(int i=0;i<reg.length;i++) {
 			reg[i][0]="F"+i;
 			String qi="";
@@ -97,6 +85,4 @@ public class RegFilePanel extends JPanel {
 		}
 		return reg;
 	}
-
-
 }

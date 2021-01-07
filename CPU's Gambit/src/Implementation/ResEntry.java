@@ -6,8 +6,7 @@ public class ResEntry {
 	public double vj, vk;
 	public String qj, qk; // "0" when resolved
 	public int A;
-	public String address;//rep of address as a string -> 32+R2
-	//int cyclesLeft;	//Qi
+	public String address;	//rep of address as a string -> 32+R2
 	int initialExecutionCycle;
 	int jReady;
 	int kReady;
@@ -22,14 +21,6 @@ public class ResEntry {
 		this.jReady = jReady;
 		this.kReady = kReady;
 		this.address=address;
-		//		if(op.equals("LD") || op.equals("SD"))
-		//			cyclesLeft = 2;
-		//		else if(op.equals("ADD") || op.equals("SUB"))
-		//			cyclesLeft = 3;
-		//		else if(op.equals("MUL"))
-		//			cyclesLeft = 5;
-		//		else 
-		//			cyclesLeft = 7;		
 	}	
 
 	public String toString() {
@@ -44,15 +35,4 @@ public class ResEntry {
 				+ "\tkReady: " + kReady
 				+ "\n";
 	}
-
-	//	void setV(String att, double value) {
-	//		if(att.equals("j"))
-	//			this.vj = value;
-	//		else
-	//			this.vk = value;
-	//	}
-
-
-
-
 }
