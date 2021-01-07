@@ -24,7 +24,7 @@ public class InstructionUnit {
 		//ta5od el instruction k string .. to convert it to instance of instruction 
 
 		String[] tokens = s.split(" "); 
-		String type = tokens[0]; //type of instruction
+		String type = tokens[0]; 	//type of instruction
 
 		//F0,F1,F2 or F0,32(R2)
 		String[] reg = tokens[1].split(",");

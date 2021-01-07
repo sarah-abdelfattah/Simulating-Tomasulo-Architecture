@@ -19,13 +19,10 @@ import Implementation.Main;
 import Implementation.*;
 
 public class IEWPanel extends JPanel{
-	Color darkBlue = new Color(25,25,112);
 	Color lightGray = new Color(245,245,245);
-	Color darkRed = new Color(204,0,0); 
-	Color seaShell = new Color(255,245,238);
 	Color ivory = new Color(25,25,112);
 
-	
+
 	public IEWPanel() {
 		this.setVisible(true);
 		this.setBackground(lightGray);
@@ -43,16 +40,13 @@ public class IEWPanel extends JPanel{
 				"#","Instruction","Issue","Execute","Write Result"
 		};
 
-		//        data for the table in a 2d array
-//		Object[][] dataIU = IEWfillGUI();
-
-				Object[][] dataIEW =IEWfillGUI();
+		//data for the table in a 2d array
+		Object[][] dataIEW =IEWfillGUI();
 
 		//create table with data
 		JTable tableIEW = new JTable(dataIEW, columnsIEW);
 		tableIEW.setGridColor(Color.white);
 		tableIEW.setBackground(lightGray);
-		//tableIEW.setPreferredSize(new Dimension(560,250));
 		tableIEW.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableIEW.setRowHeight(25);
 		tableIEW.setEnabled(false);
@@ -77,9 +71,6 @@ public class IEWPanel extends JPanel{
 		JScrollPane scrollIEW = new JScrollPane(tableIEW);
 		scrollIEW.setPreferredSize(new Dimension(1000,430));
 		this.add(scrollIEW);
-		
-		
-		
 	}
 
 

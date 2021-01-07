@@ -23,11 +23,11 @@ public class MemoryUnit {
 			System.out.println("Sorry, index not valid");
 			return;
 		}
-		
+
 		if(index<0) {
 			index=index+1024;
 		}
-		
+
 		mem[index] = value;
 	}
 }

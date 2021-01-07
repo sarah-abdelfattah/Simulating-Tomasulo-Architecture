@@ -44,12 +44,11 @@ public class RegisterFile {
 
 	@Override
 	public String toString() {
-		
+
 		String s ="";
 		for(int i=0; i<file.length;i++) {
 			s += file[i] + "\t F" + i + "\n" ; 
 		}
 		return s;
 	}
-
 }

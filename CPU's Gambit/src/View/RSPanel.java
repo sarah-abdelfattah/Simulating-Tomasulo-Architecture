@@ -18,10 +18,7 @@ import Implementation.ResEntry;
 import Implementation.ReservationStation;
 
 public class RSPanel extends JPanel {
-	Color darkBlue = new Color(25,25,112);
 	Color lightGray = new Color(245,245,245);
-	Color darkRed = new Color(204,0,0); 
-	Color seaShell = new Color(255,245,238);
 	Color ivory = new Color(25,25,112);
 
 	public RSPanel() {
@@ -30,31 +27,20 @@ public class RSPanel extends JPanel {
 		this.setPreferredSize(new Dimension(600,900));
 		this.setLayout(new GridLayout(5,1,0,40));
 
-//		TitledBorder borderInfoRS = new TitledBorder("Reservation Stations");
-//		borderInfoRS.setTitleJustification(TitledBorder.CENTER);
-//		borderInfoRS.setTitlePosition(TitledBorder.TOP);
-//		borderInfoRS.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,18));
-//		borderInfoRS.setTitleColor(ivory);
-//		this.setBorder(borderInfoRS);
-
-
-
 		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 		centerRenderer.setHorizontalAlignment( JLabel.CENTER );
 
-		
+
 		/* ------------------ LD TABLE ----------------------*/
 		String[] columnsLD = new String[] {
 				"#","Busy","Address",
 		};
 
-		//		Object[][] dataLD = LDfillGUI();
-		Object[][] dataLD =LDfillGUI();
+		Object[][] dataLD = LDfillGUI();
 
 		JTable tableLD = new JTable(dataLD, columnsLD);
 		tableLD.setGridColor(Color.white);
 		tableLD.setBackground(lightGray);
-//		tableLD.setPreferredSize(new Dimension(250,80));
 		tableLD.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableLD.setRowHeight(25);
 		tableLD.setEnabled(false);
@@ -62,7 +48,6 @@ public class RSPanel extends JPanel {
 
 		for(int x = 0 ; x < 3 ; x++)
 			tableLD.getColumnModel().getColumn(x).setCellRenderer( centerRenderer );
-
 
 		//edit header text
 		JTableHeader tableHeader = tableLD.getTableHeader();
@@ -75,15 +60,14 @@ public class RSPanel extends JPanel {
 
 		JScrollPane scrollLD = new JScrollPane(tableLD);
 		scrollLD.setPreferredSize(new Dimension(450,270));
-		
+
 		TitledBorder borderInfoLD = new TitledBorder("LD Reservation Station");
 		borderInfoLD.setTitleJustification(TitledBorder.CENTER);
 		borderInfoLD.setTitlePosition(TitledBorder.TOP);
 		borderInfoLD.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
 		borderInfoLD.setTitleColor(ivory);
 		scrollLD.setBorder(borderInfoLD);
-		
-		
+
 		this.add(scrollLD);
 
 
@@ -93,15 +77,12 @@ public class RSPanel extends JPanel {
 				"#","Busy","Vi","Qi","Address"
 		};
 
-		//        data for the table in a 2d array
-		//		Object[][] dataSD = SDfillGUI();
-
 		Object[][] dataSD = SDfillGUI();
 
 		JTable tableSD = new JTable(dataSD,columnsSD);
 		tableSD.setGridColor(Color.white);
 		tableSD.setBackground(lightGray);
-//		tableSD.setPreferredSize(new Dimension(250,100));
+		//		tableSD.setPreferredSize(new Dimension(250,100));
 		tableSD.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableSD.setRowHeight(25);
 		tableSD.setEnabled(false);
@@ -121,33 +102,29 @@ public class RSPanel extends JPanel {
 
 		JScrollPane scrollSD = new JScrollPane(tableSD);
 		scrollSD.setPreferredSize(new Dimension(450,270));
-//		scrollSD.setSize(250, 100);
-		
+
 		TitledBorder borderInfoSD = new TitledBorder("SD Reservation Station");
 		borderInfoSD.setTitleJustification(TitledBorder.CENTER);
 		borderInfoSD.setTitlePosition(TitledBorder.TOP);
 		borderInfoSD.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
 		borderInfoSD.setTitleColor(ivory);
 		scrollSD.setBorder(borderInfoSD);
-		
+
 		this.add(scrollSD);
-		
-		
-		
+
+
+
 		/* ------------------ ADD TABLE ----------------------*/
 		String[] columnsADD = new String[] {
 				"#","op","Vj","Vk","Qj","Qk","Busy"
 		};
-
-		//        data for the table in a 2d array
-//				Object[][] dataADD = ADDfillGUI();
 
 		Object[][] dataADD = ADDfillGUI();
 
 		JTable tableADD = new JTable(dataADD,columnsADD);
 		tableADD.setGridColor(Color.white);
 		tableADD.setBackground(lightGray);
-//		tableADD.setPreferredSize(new Dimension(250,80));
+		//		tableADD.setPreferredSize(new Dimension(250,80));
 		tableADD.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableADD.setRowHeight(25);
 		tableADD.setEnabled(false);
@@ -167,33 +144,28 @@ public class RSPanel extends JPanel {
 
 		JScrollPane scrollADD = new JScrollPane(tableADD);
 		scrollADD.setPreferredSize(new Dimension(450,270));
-		
+
 		TitledBorder borderInfoADD = new TitledBorder("ADD Reservation Station");
 		borderInfoADD.setTitleJustification(TitledBorder.CENTER);
 		borderInfoADD.setTitlePosition(TitledBorder.TOP);
 		borderInfoADD.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
 		borderInfoADD.setTitleColor(ivory);
 		scrollADD.setBorder(borderInfoADD);
-		
-		this.add(scrollADD);
-		
 
-		
-		
+		this.add(scrollADD);
+
+
+
 		/* ------------------ MUL TABLE ----------------------*/
 		String[] columnsMUL = new String[] {
 				"#","op","Vj","Vk","Qj","Qk","Busy"
 		};
-
-		//        data for the table in a 2d array
-//				Object[][] dataMUL = MULfillGUI();
 
 		Object[][] dataMUL = MULfillGUI();
 
 		JTable tableMUL = new JTable(dataMUL,columnsMUL);
 		tableMUL.setGridColor(Color.white);
 		tableMUL.setBackground(lightGray);
-//		tableMUL.setPreferredSize(new Dimension(260,80));
 		tableMUL.setFont(new Font("Serif", Font.PLAIN, 15));
 		tableMUL.setRowHeight(25);
 		tableMUL.setEnabled(false);
@@ -213,16 +185,16 @@ public class RSPanel extends JPanel {
 
 		JScrollPane scrollMUL = new JScrollPane(tableMUL);
 		scrollMUL.setPreferredSize(new Dimension(450,270));
-		
+
 		TitledBorder borderInfoMUL = new TitledBorder("MUL Reservation Station");
 		borderInfoMUL.setTitleJustification(TitledBorder.CENTER);
 		borderInfoMUL.setTitlePosition(TitledBorder.TOP);
 		borderInfoMUL.setTitleFont(new Font(Font.SANS_SERIF, Font.BOLD,16));
 		borderInfoMUL.setTitleColor(ivory);
 		scrollMUL.setBorder(borderInfoMUL);
-		
+
 		this.add(scrollMUL);
-		
+
 		this.validate();
 		this.repaint();
 
@@ -255,9 +227,7 @@ public class RSPanel extends JPanel {
 		Object[][] add=new Object[res.resEntries.length][7];
 		for(int i=0;i<add.length;i++) {
 			add[i][0]= "A"+(i+1);
-			//mul[i][6]="";
 			ResEntry re=res.resEntries[i];
-			//System.out.println(re);
 			if(re==null) {
 				add[i][6]="0";
 				add[i][1]=add[i][2]=add[i][3]=add[i][4]=add[i][5]="";
