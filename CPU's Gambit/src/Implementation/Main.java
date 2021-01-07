@@ -43,7 +43,7 @@ public class Main {
 //	    sc.useDelimiter("#"); 
 
 		
-		 File file = new File("Tests/test1.txt"); 
+		 File file = new File("Tests/test2.txt"); 
 		  
 		  BufferedReader br = new BufferedReader(new FileReader(file)); 
 		  String st; 
@@ -212,7 +212,7 @@ public class Main {
 			LDResStation.resEntries[idx].initialExecutionCycle=cycle;
 		}else if(cur.type.equals("SD")) {
 			SDResStation.resEntries[idx].initialExecutionCycle=cycle;
-		}else if(cur.type.equals("MUL")||cur.type.equals("DIV")) {
+		}else if(cur.type.equals("MUL.D")||cur.type.equals("DIV.D")) {
 			mulResStation.resEntries[idx].initialExecutionCycle=cycle;
 		}else {//ADD OR SUB
 			addResStation.resEntries[idx].initialExecutionCycle=cycle;
@@ -225,7 +225,7 @@ public class Main {
 			LDResStation.resEntries[idx]=null;
 		}else if(cur.type.equals("SD")) {
 			SDResStation.resEntries[idx]=null;
-		}else if(cur.type.equals("MUL") ||cur.type.equals("DIV")) {
+		}else if(cur.type.equals("MUL.D") ||cur.type.equals("DIV.D")) {
 			mulResStation.resEntries[idx]=null;
 		}else {//ADD OR SUB
 			addResStation.resEntries[idx]=null;
@@ -321,13 +321,13 @@ public class Main {
 		}else if(cur.type.equals("SD")) {
 			entry=SDResStation.resEntries[tagIndex];
 			ans=entry.vj;
-		}else if(cur.type.equals("DIV")) {
+		}else if(cur.type.equals("DIV.D")) {
 			entry=mulResStation.resEntries[tagIndex];
 			ans=(double)entry.vj/entry.vk;
-		}else if(cur.type.equals("MUL")){
+		}else if(cur.type.equals("MUL.D")){
 			entry=mulResStation.resEntries[tagIndex];
 			ans=(double)entry.vj*entry.vk;
-		}else if(cur.type.equals("ADD")){
+		}else if(cur.type.equals("ADD.D")){
 			entry=addResStation.resEntries[tagIndex];
 			ans=entry.vj+entry.vk;
 		}else {//SUB
@@ -344,11 +344,11 @@ public class Main {
 			return loadCycles;
 		else if(op.equals("SD")) 
 			return storeCycles;
-		else if(op.equals("ADD"))
+		else if(op.equals("ADD.D"))
 			return addCycles;
-		else if( op.equals("SUB"))
+		else if( op.equals("SUB.D"))
 			return subCycles;
-		else if(op.equals("MUL"))
+		else if(op.equals("MUL.D"))
 			return mulCycles;
 		else 
 			return divCycles; //DIV		
@@ -364,7 +364,7 @@ public class Main {
 		}
 		if(cur.type.equals("SD")) {
 			res=SDResStation.resEntries[idx] ;
-		} else if(cur.type.equals("MUL")||cur.type.equals("DIV")) {
+		} else if(cur.type.equals("MUL.D")||cur.type.equals("DIV.D")) {
 			res=mulResStation.resEntries[idx];
 
 		} else{//ADD OR SUB
@@ -387,7 +387,7 @@ public class Main {
 			return LDResStation.add(current,registerFile,LDResStation,SDResStation);
 		else if(op.equals("SD"))
 			return SDResStation.add(current,registerFile,LDResStation,SDResStation);
-		else if(op.equals("ADD") || op.equals("SUB"))
+		else if(op.equals("ADD.D") || op.equals("SUB.D"))
 			return addResStation.add(current,registerFile,LDResStation,SDResStation);
 		else //MUL AND DIV
 			return mulResStation.add(current,registerFile,LDResStation,SDResStation);

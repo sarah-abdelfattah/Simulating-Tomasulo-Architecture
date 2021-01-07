@@ -32,7 +32,7 @@ public class ReservationStation {
 		}
 		resEntries[idx] = rs;
 
-		char prefix=inst.type.equals("SUB")?'A':inst.type.equals("DIV")?'M':inst.type.charAt(0);
+		char prefix=inst.type.equals("SUB.D")?'A':inst.type.equals("DIV.D")?'M':inst.type.charAt(0);
 		inst.reservationTag=prefix+""+(idx+1);
 		
 		if(!inst.type.equals("SD")) {
@@ -152,7 +152,7 @@ public class ReservationStation {
 
 		for(int i =0; i<resEntries.length ;i++) {
 			
-			char prefix=type.equals("SUB")?'A':type.equals("DIV")?'M':type.charAt(0);
+			char prefix=type.equals("SUB.D")?'A':type.equals("DIV.D")?'M':type.charAt(0);
 			String tag = prefix+""+(i+1);
 
 			s += tag +" " + resEntries[i] + "\n";
