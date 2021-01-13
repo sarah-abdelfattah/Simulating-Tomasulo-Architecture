@@ -2,18 +2,12 @@ package Implementation;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Scanner;
+
+
 //offset in LD AND SD should be from -1024->527 (negative base+offset accesses memory from the bottom )->reverse access 
 //Mapping of negative memory addresses -1 -> last pos (1023) , -2 ->1022 .. (0 indexed)
-
-import View.GUI;
 
 //register file and memory are initially filled with zeroes , method fillDummy in line 62, fills reg file and memory with dummy data to test properly
 //we assume for any block of code entered that all the operands are ready / no hazards stopping us ,(no depending on a previous snippet of code not mentioned)
@@ -35,7 +29,7 @@ public class Main {
 		registerFile = new RegisterFile(32);
 		insts=new String[32];
 
-		File file = new File("Tests/test1.txt"); 
+		File file = new File("Tests/test4.txt"); 
 
 		BufferedReader br = new BufferedReader(new FileReader(file)); 
 		String st; 
@@ -77,6 +71,7 @@ public class Main {
 	public static void main(String[]args) throws IOException {
 
 	}
+
 	public static int nextCycle() throws IOException {
 		s="";
 
@@ -166,9 +161,9 @@ public class Main {
 	}
 	private static void setInitialExecutionCycle(Instruction cur,int cycle) {
 		int idx=Integer.parseInt(cur.reservationTag.substring(1))-1;	//extracts index of it
-		if(cur.type.equals("LD")) {
+		if(cur.type.equals("L.D")) {
 			LDResStation.resEntries[idx].initialExecutionCycle=cycle;
-		}else if(cur.type.equals("SD")) {
+		}else if(cur.type.equals("S.D")) {
 			SDResStation.resEntries[idx].initialExecutionCycle=cycle;
 		}else if(cur.type.equals("MUL.D")||cur.type.equals("DIV.D")) {
 			mulResStation.resEntries[idx].initialExecutionCycle=cycle;
@@ -179,9 +174,9 @@ public class Main {
 
 	private static void deleteInstruction(Instruction cur) {
 		int idx=Integer.parseInt(cur.reservationTag.substring(1))-1;	//extracts index of it
-		if(cur.type.equals("LD")) {
+		if(cur.type.equals("L.D")) {
 			LDResStation.resEntries[idx]=null;
-		}else if(cur.type.equals("SD")) {
+		}else if(cur.type.equals("S.D")) {
 			SDResStation.resEntries[idx]=null;
 		}else if(cur.type.equals("MUL.D") ||cur.type.equals("DIV.D")) {
 			mulResStation.resEntries[idx]=null;
@@ -275,10 +270,10 @@ public class Main {
 		int tagIndex=Integer.parseInt(cur.reservationTag.substring(1))-1;	//if M1 ,tagIndex=0
 		ResEntry entry=null;
 
-		if(cur.type.equals("LD")) {
+		if(cur.type.equals("L.D")) {
 			entry=LDResStation.resEntries[tagIndex];
 			ans=memoryUnit.get(entry.A);
-		}else if(cur.type.equals("SD")) {
+		}else if(cur.type.equals("S.D")) {
 			entry=SDResStation.resEntries[tagIndex];
 			ans=entry.vj;
 		}else if(cur.type.equals("DIV.D")) {
@@ -299,9 +294,9 @@ public class Main {
 
 	private static int getPromisedCycles(Instruction cur) {
 		String op=cur.type;
-		if(op.equals("LD") )
+		if(op.equals("L.D") )
 			return loadCycles;
-		else if(op.equals("SD")) 
+		else if(op.equals("S.D")) 
 			return storeCycles;
 		else if(op.equals("ADD.D"))
 			return addCycles;
@@ -317,10 +312,10 @@ public class Main {
 		int idx = Integer.parseInt(cur.reservationTag.substring(1))-1;	//extracts index of the instruction
 		//load is not needed to be checked as it's not waiting for something
 		ResEntry res=null;
-		if(cur.type.equals("LD")) {
+		if(cur.type.equals("L.D")) {
 			return true;
 		}
-		if(cur.type.equals("SD")) {
+		if(cur.type.equals("S.D")) {
 			res=SDResStation.resEntries[idx] ;
 		} else if(cur.type.equals("MUL.D")||cur.type.equals("DIV.D")) {
 			res=mulResStation.resEntries[idx];
@@ -340,20 +335,20 @@ public class Main {
 	private static int canBeIssued(Instruction current) {
 		String op=current.type;
 		int x;
-		if(op.equals("LD") ) {
+		if(op.equals("L.D") ) {
 			x = LDResStation.add(current,registerFile,LDResStation,SDResStation);
 			if(x==-2) {
 				s+="Cannot issue , load has a preceeding store of same address\n";
 			}
 
 		}
-		else if(op.equals("SD")) {
+		else if(op.equals("S.D")) {
 			x = SDResStation.add(current,registerFile,LDResStation,SDResStation);
 			if(x==-2) {
 				s += "Cannot issue , store has a preceeding load or store of same address\n";
 			}
 		}
-		else if(op.equals("ADD") || op.equals("SUB"))
+		else if(op.equals("ADD.D") || op.equals("SUB.D")) // FIXME: 8yrt di kaman
 			x= addResStation.add(current,registerFile,LDResStation,SDResStation);
 		else //MUL AND DIV
 			x= mulResStation.add(current,registerFile,LDResStation,SDResStation);

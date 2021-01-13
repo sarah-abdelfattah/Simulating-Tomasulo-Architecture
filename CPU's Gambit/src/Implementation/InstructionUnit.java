@@ -22,7 +22,6 @@ public class InstructionUnit {
 
 	Instruction parse(String s) {
 		//ta5od el instruction k string .. to convert it to instance of instruction 
-
 		String[] tokens = s.split(" "); 
 		String type = tokens[0]; 	//type of instruction
 
@@ -30,7 +29,7 @@ public class InstructionUnit {
 		String[] reg = tokens[1].split(",");
 		String dest = reg[0];
 		String src1 = reg[1];
-		String src2 = type.equals("LD") || type.equals("SD") ? "" : reg[2];
+		String src2 = type.equals("L.D") || type.equals("S.D") ? "" : reg[2];
 
 		return new Instruction(type, dest, src1, src2);
 	}	
